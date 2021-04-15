@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const { ApolloServer, gql } = require("apollo-server");
 
 // typeDefs
@@ -10,6 +11,7 @@ const commentTypeDefs = require("./typeDefs/comments");
 const userResolver = require("./resolvers/users");
 const postResolver = require("./resolvers/posts");
 const commentResolver = require("./resolvers/comments");
+const { parseUserFromToken } = require("./helpers/authToken");
 
 dotenv.config();
 const typeDefs = gql`
@@ -20,8 +22,20 @@ const typeDefs = gql`
 const server = new ApolloServer({
   typeDefs: [typeDefs, userTypeDefs, postTypeDefs, commentTypeDefs],
   resolvers: [userResolver, postResolver, commentResolver],
+  context: async ({ req }) => {
+    const token = req.headers.authorization || "";
+    const user = await parseUserFromToken(token);
+    return { user };
+  },
 });
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => server.listen())
+  .then(({ url }) => {
+    console.log(`🚀  Server ready at ${url}`);
+  })
+  .catch((err) => console.error(err));

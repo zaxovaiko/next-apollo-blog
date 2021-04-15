@@ -7,9 +7,9 @@ module.exports = {
     post: (_, args) => PostService.getOneById(args.id),
   },
   Mutation: {
-    createPost: (_, args) => PostService.createPost(args),
-    editPost: (_, args) => PostService.editPost(args.id, args),
-    deletePost: (_, args) => PostService.deletePost(args.id),
+    createPost: (_, args, context) => PostService.createPost(args),
+    editPost: (_, args, context) => PostService.editPost(args.id, args),
+    deletePost: (_, args, context) => PostService.deletePost(args.id),
   },
   Post: {
     user: (parent, _) => UserService.getOneById(parent.userId),

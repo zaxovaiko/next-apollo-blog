@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/index.js",
+    "seed": "node ./seeds/index.js"
   },
   "keywords": [
     "apollo-server",
@@ -20,6 +21,7 @@
     "bcrypt": "^5.0.1",
     "graphql": "^15.5.0",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.3",
     "validator": "^13.5.2"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "faker": "^5.5.3",
+    "gravatar": "^1.8.1",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   }

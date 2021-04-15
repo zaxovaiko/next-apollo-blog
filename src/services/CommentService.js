@@ -1,41 +1,27 @@
-const faker = require("faker");
-const comments = require("../repos/comments");
-const UserService = require("./UserService");
+const Comment = require("../models/Comment");
+const PostService = require("./PostService");
 
 function getAll() {
-  return comments;
+  return Comment.find();
 }
 
 function getOneById(id) {
-  return comments.find((e) => e.id === id);
+  return Comment.findById(id).catch(() => null);
 }
 
-function createComment({ text, userId }) {
-  if (!UserService.getOneById(userId)) {
-    throw new Error("User does not exists");
+function createComment({ text, userId, postId }) {
+  if (!PostService.getOneById(postId)) {
+    throw new Error("Post does not exists");
   }
-
-  const comment = { id: faker.datatype.uuid(), text, userId };
-  comments.push(comments);
-  return comment;
+  return Comment.create({ text, userId, postId });
 }
 
 function updateComment(id, { text }) {
-  const comment = getOneById(id);
-  if (!comment) {
-    throw new Error("Comment does not exists");
-  }
-  comment.text = text;
-  return comment;
+  return Comment.findByIdAndUpdate(id, { text }).catch(() => null);
 }
 
 function deleteComment(id) {
-  const comment = getOneById(id);
-  if (!comment) {
-    throw new Error("Comment does not exists");
-  }
-  comment.deleted = true;
-  return comment;
+  return Comment.findByIdAndDelete(id).catch(() => null);
 }
 
 module.exports = {

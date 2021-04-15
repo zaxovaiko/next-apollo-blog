@@ -1,36 +1,29 @@
 const validator = require("validator");
-const posts = require("../repos/posts");
-const { getOneById: getOneUserById } = require("./UserService");
+const Post = require("../models/Post");
+const UserService = require("./UserService");
 
 function getOneById(id) {
-  return posts.find((e) => e.id === id);
+  return Post.findById(id).catch(() => null);
 }
 
 function getAll() {
-  return posts;
+  return Post.find();
 }
 
 function getAllByUserId(userId) {
-  return posts.filter((e) => e.userId === userId);
+  return Post.find({ userId });
 }
 
-function createPost({ text, userId }) {
+async function createPost({ text, userId }) {
   if (validator.isEmpty(text)) {
     throw new Error("Validation error");
   }
 
-  // no need to use it -> middleware will filter it
-  const user = getOneUserById(userId);
-  if (!user) {
-    throw new Error("User does not exists");
-  }
-
-  const post = {
-    id: Math.random().toString(36).slice(7),
-    text,
-    userId,
-  };
+  const post = await Post.create({ text, userId });
+  const user = await UserService.getOneUserById(userId);
   user.posts.push(post.id);
+  await user.save();
+
   return post;
 }
 
@@ -38,23 +31,11 @@ function editPost(id, { text }) {
   if (validator.isEmpty(text)) {
     throw new Error("Validation error");
   }
-
-  const post = getOneById(id);
-  if (!post) {
-    throw new Error("Post does not exists");
-  }
-
-  post.text = text;
-  return post;
+  return Post.findByIdAndUpdate(id, { text }).catch(() => null);
 }
 
 function deletePost(id) {
-  const post = getOneById(id);
-  if (!post) {
-    throw new Error("Post does not exists");
-  }
-  post.deleted = true;
-  return post;
+  return Post.findByIdAndDelete(id).catch(() => null);
 }
 
 module.exports = {

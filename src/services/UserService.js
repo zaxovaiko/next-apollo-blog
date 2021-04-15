@@ -1,44 +1,33 @@
 const validator = require("validator");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const users = require("../repos/users");
+const gravatar = require("gravatar");
+const { generateJWT } = require("../helpers/authToken");
+const User = require("../models/User");
 
 function getAll() {
-  return users;
+  return User.find();
 }
 
 function getOneByEmail(email) {
-  return users.find((e) => e.email === email);
+  return User.findOne({ email });
 }
 
 function getOneById(id) {
-  return users.find((e) => e.id === id);
+  return User.findById(id).catch(() => null);
 }
 
-function login({ email, password }) {
-  const user = getOneByEmail(email);
+async function login({ email, password }) {
+  const user = await getOneByEmail(email);
   if (!user) {
     throw new Error("User does not exist");
   }
-
   if (!bcrypt.compareSync(password, user.password)) {
     throw new Error("Password is wrong");
   }
-
-  return jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    }
-  );
+  return generateJWT(user);
 }
 
-function signup({ name, email, password }) {
+async function signup({ name, email, password }) {
   if (
     validator.isEmpty(name) ||
     !validator.isEmail(email) ||
@@ -47,31 +36,22 @@ function signup({ name, email, password }) {
     throw new Error("Validation error");
   }
 
-  if (getOneByEmail(email)) {
+  if (await getOneByEmail(email)) {
     throw new Error("User already exists");
   }
 
-  const user = {
-    id: Math.random().toString(36).substr(10),
+  const user = await User.create({
     name,
     email,
     password: bcrypt.hashSync(password, +process.env.BCRYPT_ROUNDS),
-    avatar: "",
-    role: "user",
-  };
+    avatar: gravatar.url(email, {
+      s: "512",
+      d: "identicon",
+      r: "pg",
+    }),
+  });
 
-  users.push(user);
-  return jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    }
-  );
+  return generateJWT(user);
 }
 
 function editUser(id, { name, email, password }) {
@@ -82,17 +62,15 @@ function editUser(id, { name, email, password }) {
   ) {
     throw new Error("Invalid data");
   }
+  return User.findByIdAndUpdate(id, {
+    name,
+    email,
+    password: bcrypt.hashSync(password, +process.env.BCRYPT_ROUNDS),
+  }).catch(() => null);
+}
 
-  const user = getOneById(id);
-  if (!user) {
-    throw new Error("User does not exists");
-  }
-
-  user.name = name;
-  user.email = email;
-  user.password = password;
-
-  return user;
+function deleteUser(id) {
+  return User.findByIdAndDelete(id).catch(() => null);
 }
 
 module.exports = {
@@ -102,4 +80,5 @@ module.exports = {
   login,
   signup,
   editUser,
+  deleteUser,
 };
