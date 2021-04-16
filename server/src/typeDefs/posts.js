@@ -5,6 +5,7 @@ module.exports = gql`
     id: ID!
     text: String!
     user: User
+    votes: Int!
     createdAt: String
     updatedAt: String
   }

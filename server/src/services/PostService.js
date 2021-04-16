@@ -20,7 +20,7 @@ async function createPost({ text, userId }) {
   }
 
   const post = await Post.create({ text, userId });
-  const user = await UserService.getOneUserById(userId);
+  const user = await UserService.getOneById(userId);
   user.posts.push(post.id);
   await user.save();
 
@@ -38,6 +38,16 @@ function deletePost(id) {
   return Post.findByIdAndDelete(id).catch(() => null);
 }
 
+async function checkUserPermission(postId, user) {
+  const post = await getOneById(postId);
+  if (!post) {
+    throw new Error("Post does not exists");
+  }
+  if (post.userId !== user.id && user.role !== "admin") {
+    throw new Error("You do not have permissions");
+  }
+}
+
 module.exports = {
   getAll,
   getOneById,
@@ -45,4 +55,5 @@ module.exports = {
   createPost,
   editPost,
   deletePost,
+  checkUserPermission,
 };

@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const UserService = require("../services/UserService");
 
 function generateJWT({ id, name, email, avatar, role }) {
   return jwt.sign({ id, name, email, avatar, role }, process.env.JWT_SECRET, {
@@ -7,10 +6,9 @@ function generateJWT({ id, name, email, avatar, role }) {
   });
 }
 
-async function parseUserFromToken(token) {
+function parseUserFromToken(token) {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return await UserService.getOneById(decoded.id);
+    return jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     return null;
   }

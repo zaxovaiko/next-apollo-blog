@@ -1,5 +1,5 @@
+const validator = require("validator");
 const Comment = require("../models/Comment");
-const PostService = require("./PostService");
 
 function getAll() {
   return Comment.find();
@@ -10,18 +10,31 @@ function getOneById(id) {
 }
 
 function createComment({ text, userId, postId }) {
-  if (!PostService.getOneById(postId)) {
-    throw new Error("Post does not exists");
+  if (validator.isEmpty(text)) {
+    throw new Error("Invalid data");
   }
   return Comment.create({ text, userId, postId });
 }
 
 function updateComment(id, { text }) {
+  if (validator.isEmpty(text)) {
+    throw new Error("Invalid data");
+  }
   return Comment.findByIdAndUpdate(id, { text }).catch(() => null);
 }
 
 function deleteComment(id) {
   return Comment.findByIdAndDelete(id).catch(() => null);
+}
+
+async function checkUserPermission(commentId, user) {
+  const comment = await getOneById(commentId);
+  if (!comment) {
+    throw new Error("Comment does not exists");
+  }
+  if (comment.userId !== user.id && user.role !== "admin") {
+    throw new Error("You do not have permissions");
+  }
 }
 
 module.exports = {
@@ -30,4 +43,5 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
+  checkUserPermission,
 };

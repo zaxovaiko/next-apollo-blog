@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const { ApolloServer, gql } = require("apollo-server");
+const UserService = require("./services/UserService");
 
 // typeDefs
 const userTypeDefs = require("./typeDefs/users");
@@ -24,8 +25,12 @@ const server = new ApolloServer({
   resolvers: [userResolver, postResolver, commentResolver],
   context: async ({ req }) => {
     const token = req.headers.authorization || "";
-    const user = await parseUserFromToken(token);
-    return { user };
+    try {
+      const user = parseUserFromToken(token);
+      return { user: await UserService.getOneById(user.id) };
+    } catch (e) {
+      return { user: null };
+    }
   },
 });
 

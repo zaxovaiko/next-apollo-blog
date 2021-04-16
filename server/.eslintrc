@@ -1,0 +1,14 @@
+{
+  "extends": ["plugin:prettier/recommended", "plugin:import/errors"],
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "settings": {
+    "import": [2, { "maxDepth": 1 }]
+  }
+}
