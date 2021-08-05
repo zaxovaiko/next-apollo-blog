@@ -1,19 +1,19 @@
-const validator = require("validator");
 const bcrypt = require("bcrypt");
+const validator = require("validator");
 const gravatar = require("gravatar");
-const { generateJWT } = require("../helpers/authToken");
-const User = require("../models/User");
+const { generateJWT } = require("../helpers/auth-token.helper");
+const userModel = require("./user.model");
 
 function getAll() {
-  return User.find();
+  return userModel.find();
 }
 
 function getOneByEmail(email) {
-  return User.findOne({ email });
+  return userModel.findOne({ email });
 }
 
 function getOneById(id) {
-  return User.findById(id).catch(() => null);
+  return userModel.findById(id).catch(() => null);
 }
 
 async function login({ email, password }) {
@@ -21,7 +21,8 @@ async function login({ email, password }) {
   if (!user) {
     throw new Error("User does not exist");
   }
-  if (!bcrypt.compareSync(password, user.password)) {
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
     throw new Error("Password is wrong");
   }
   return generateJWT(user);
@@ -40,7 +41,7 @@ async function signup({ name, email, password }) {
     throw new Error("User already exists");
   }
 
-  const user = await User.create({
+  const user = await userModel.create({
     name,
     email,
     password: bcrypt.hashSync(password, +process.env.BCRYPT_ROUNDS),
@@ -62,15 +63,17 @@ function editUser(id, { name, email, password }) {
   ) {
     throw new Error("Invalid data");
   }
-  return User.findByIdAndUpdate(id, {
-    name,
-    email,
-    password: bcrypt.hashSync(password, +process.env.BCRYPT_ROUNDS),
-  }).catch(() => null);
+  return userModel
+    .findByIdAndUpdate(id, {
+      name,
+      email,
+      password: bcrypt.hashSync(password, +process.env.BCRYPT_ROUNDS),
+    })
+    .catch(() => null);
 }
 
 function deleteUser(id) {
-  return User.findByIdAndDelete(id).catch(() => null);
+  return userModel.findByIdAndDelete(id).catch(() => null);
 }
 
 module.exports = {

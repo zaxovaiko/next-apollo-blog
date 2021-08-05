@@ -4,14 +4,12 @@ module.exports = gql`
   type Comment {
     id: ID!
     text: String!
-    user: User!
-    post: Post!
     createdAt: String
     updatedAt: String
   }
 
   extend type Query {
-    comments: [Comment!]
+    comments: [Comment!]!
     comment(id: ID!): Comment
   }
 

@@ -1,30 +1,30 @@
 const validator = require("validator");
-const Comment = require("../models/Comment");
+const commentModel = require("./comment.model");
 
 function getAll() {
-  return Comment.find();
+  return commentModel.find();
 }
 
 function getOneById(id) {
-  return Comment.findById(id).catch(() => null);
+  return commentModel.findById(id).catch(() => null);
 }
 
-function createComment({ text, userId, postId }) {
-  if (validator.isEmpty(text)) {
+function createComment({ text, user, post }) {
+  if (validator.isEmpty(text || "")) {
     throw new Error("Invalid data");
   }
-  return Comment.create({ text, userId, postId });
+  return commentModel.create({ text, user, post }).catch(() => null);
 }
 
 function updateComment(id, { text }) {
-  if (validator.isEmpty(text)) {
+  if (validator.isEmpty(text || "")) {
     throw new Error("Invalid data");
   }
-  return Comment.findByIdAndUpdate(id, { text }).catch(() => null);
+  return commentModel.findByIdAndUpdate(id, { text }).catch(() => null);
 }
 
 function deleteComment(id) {
-  return Comment.findByIdAndDelete(id).catch(() => null);
+  return commentModel.findByIdAndDelete(id).catch(() => null);
 }
 
 async function checkUserPermission(commentId, user) {
@@ -32,7 +32,7 @@ async function checkUserPermission(commentId, user) {
   if (!comment) {
     throw new Error("Comment does not exists");
   }
-  if (comment.userId !== user.id && user.role !== "admin") {
+  if (comment.user !== user.id && user.role !== "admin") {
     throw new Error("You do not have permissions");
   }
 }

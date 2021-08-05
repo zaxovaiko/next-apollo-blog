@@ -7,8 +7,11 @@ module.exports = gql`
     email: String!
     avatar: String!
     password: String!
-    role: String!
-    posts: [Post!]
+    roles: [String!]!
+    posts: [Post!]!
+    comments: [Comment!]!
+    likedPosts: [Post!]!
+    likedComments: [Comment!]!
     createdAt: String
     updatedAt: String
   }

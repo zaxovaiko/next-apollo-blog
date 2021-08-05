@@ -1,7 +1,12 @@
-# Apollo GraphQL server
+# Apollo GraphQL API
 
-Entities:
+## Entities
 
 - User
 - Post
 - Comment
+
+## Installation
+
+1. Run `npm install`
+2. Run `npm run start`
