@@ -13,6 +13,7 @@ function getOneByEmail(email) {
 }
 
 function getOneById(id) {
+  console.log(id);
   return userModel.findById(id).catch(() => null);
 }
 

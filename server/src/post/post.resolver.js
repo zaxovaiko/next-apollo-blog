@@ -1,4 +1,4 @@
-const { service: userService } = require("../user");
+const userService = require("../user/user.service");
 const postService = require("./post.service");
 
 module.exports = {
