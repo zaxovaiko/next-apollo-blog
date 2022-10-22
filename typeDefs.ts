@@ -21,6 +21,7 @@ export const typeDefs = gql`
     createdAt: Date
     comments: [Comment!]
     id: ID!
+    isDraft: Boolean
     title: String!
     updatedAt: Date
     previewImage: String
@@ -42,5 +43,64 @@ export const typeDefs = gql`
   type Query {
     users: [User!]
     posts: [Post!]
+    comments: [Comment!]
+  }
+
+  input CreateUserInput {
+    username: String!
+  }
+
+  input UpdateUserInput {
+    username: String!
+    firstName: String
+    lastName: String
+    avatar: String
+  }
+
+  input CreatePostInput {
+    title: String!
+    content: String
+    previewImage: String
+    images: [String!]
+  }
+
+  input UpdatePostInput {
+    id: ID!
+  }
+
+  input PublishPostInput {
+    id: ID!
+  }
+
+  input DeletePostInput {
+    id: ID!
+  }
+
+  input CreateCommentInput {
+    text: String!
+  }
+
+  input UpdateCommentInput {
+    id: ID!
+    text: String!
+  }
+
+  input DeleteCommentInput {
+    id: ID!
+  }
+
+  type Mutation {
+    createUser(input: CreateUserInput!): User
+    updateUser(input: UpdateUserInput!): User
+    deleteUser: User
+
+    createPost(input: CreatePostInput!): Post
+    updatePost(input: UpdatePostInput!): Post
+    publishPost(input: PublishPostInput!): Post
+    deletePost(input: DeletePostInput!): Post
+
+    createComment(input: CreateCommentInput!): Comment
+    updateComment(input: UpdateCommentInput!): Comment
+    deleteComment(input: DeleteCommentInput!): Comment
   }
 `;
