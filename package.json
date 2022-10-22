@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@apollo/client": "3.7.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^5.6.1",
+    "@mantine/hooks": "^5.6.1",
+    "@mantine/next": "^5.6.1",
     "apollo-server-micro": "3.10.3",
     "graphql": "16.6.0",
     "micro": "9.4.1",
