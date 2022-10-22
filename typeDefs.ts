@@ -1,16 +1,46 @@
 import { gql } from 'apollo-server-micro';
 
 export const typeDefs = gql`
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  scalar Date
+
+  type User {
+    avatar: String!
+    createdAt: Date
+    firstName: String
+    id: ID!
+    inactive: Boolean!
+    lastName: String
+    updatedAt: Date
+    username: String!
+    posts: [Post!]
+    comments: [Comment!]
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Post {
+    content: String
+    createdAt: Date
+    comments: [Comment!]
+    id: ID!
+    title: String!
+    updatedAt: Date
+    previewImage: String
+    images: [String!]
+    upvotes: Int!
+    user: User!
+  }
+
+  type Comment {
+    createdAt: Date
+    id: ID!
+    post: Post!
+    text: String!
+    updatedAt: Date
+    upvotes: Int
+    user: User!
+  }
+
   type Query {
-    books: [Book]
+    users: [User!]
+    posts: [Post!]
   }
 `;
