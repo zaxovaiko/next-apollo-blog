@@ -1,8 +1,6 @@
 name: CI Check
 
-on:
-  workflow_dispatch
-  push
+on: [workflow_dispatch, push]
 
 jobs:
   build-and-lint:
