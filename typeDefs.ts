@@ -40,12 +40,6 @@ export const typeDefs = gql`
     user: User!
   }
 
-  type Query {
-    users: [User!]
-    posts: [Post!]
-    comments: [Comment!]
-  }
-
   input CreateUserInput {
     username: String!
   }
@@ -87,6 +81,12 @@ export const typeDefs = gql`
 
   input DeleteCommentInput {
     id: ID!
+  }
+
+  type Query {
+    users: [User!]
+    posts: [Post!]
+    comments: [Comment!]
   }
 
   type Mutation {
