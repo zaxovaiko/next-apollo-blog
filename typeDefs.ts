@@ -5,6 +5,7 @@ export const typeDefs = gql`
 
   type User {
     avatar: String!
+    email: String!
     createdAt: Date
     firstName: String
     id: ID!
@@ -41,14 +42,19 @@ export const typeDefs = gql`
   }
 
   input CreateUserInput {
+    avatar: String
+    email: String
+    firstName: String
+    lastName: String
     username: String!
   }
 
   input UpdateUserInput {
-    username: String!
+    avatar: String
+    email: String
     firstName: String
     lastName: String
-    avatar: String
+    username: String!
   }
 
   input CreatePostInput {
@@ -84,6 +90,7 @@ export const typeDefs = gql`
   }
 
   type Query {
+    currentUser: User
     users: [User!]
     posts: [Post!]
     comments: [Comment!]

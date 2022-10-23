@@ -1,12 +1,15 @@
 import { ApolloServer } from 'apollo-server-micro';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { createContextHandler } from '../../lib/context';
 import { resolvers } from '../../resolvers';
 import { typeDefs } from '../../typeDefs';
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  cache: 'bounded',
+  context: createContextHandler,
 });
 const startServer = apolloServer.start();
 
