@@ -1,20 +1,7 @@
-import { QueryResolvers } from '../generated/graphql';
-
-const books: QueryResolvers['books'] = () => {
-  return [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
-};
+import * as Mutation from './mutations';
+import * as Query from './queries';
 
 export const resolvers = {
-  Query: {
-    books,
-  },
+  Query,
+  Mutation,
 };

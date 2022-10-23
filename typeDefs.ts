@@ -1,16 +1,113 @@
 import { gql } from 'apollo-server-micro';
 
 export const typeDefs = gql`
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  scalar Date
+
+  type User {
+    avatar: String!
+    email: String!
+    createdAt: Date
+    firstName: String
+    id: ID!
+    inactive: Boolean!
+    lastName: String
+    updatedAt: Date
+    username: String!
+    posts: [Post!]
+    comments: [Comment!]
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Post {
+    content: String
+    createdAt: Date
+    comments: [Comment!]
+    id: ID!
+    isDraft: Boolean
+    title: String!
+    updatedAt: Date
+    previewImage: String
+    images: [String!]
+    upvotes: Int!
+    user: User!
+  }
+
+  type Comment {
+    createdAt: Date
+    id: ID!
+    post: Post!
+    text: String!
+    updatedAt: Date
+    upvotes: Int
+    user: User!
+  }
+
+  input CreateUserInput {
+    avatar: String
+    email: String
+    firstName: String
+    lastName: String
+    username: String!
+  }
+
+  input UpdateUserInput {
+    avatar: String
+    email: String
+    firstName: String
+    lastName: String
+    username: String!
+  }
+
+  input CreatePostInput {
+    title: String!
+    content: String
+    previewImage: String
+    images: [String!]
+  }
+
+  input UpdatePostInput {
+    id: ID!
+  }
+
+  input PublishPostInput {
+    id: ID!
+  }
+
+  input DeletePostInput {
+    id: ID!
+  }
+
+  input CreateCommentInput {
+    text: String!
+  }
+
+  input UpdateCommentInput {
+    id: ID!
+    text: String!
+  }
+
+  input DeleteCommentInput {
+    id: ID!
+  }
+
   type Query {
-    books: [Book]
+    currentUser: User
+    users: [User!]
+    posts: [Post!]
+    comments: [Comment!]
+  }
+
+  type Mutation {
+    createUser(input: CreateUserInput!): User
+    updateUser(input: UpdateUserInput!): User
+    deleteUser: User
+
+    createPost(input: CreatePostInput!): Post
+    updatePost(input: UpdatePostInput!): Post
+    publishPost(input: PublishPostInput!): Post
+    deletePost(input: DeletePostInput!): Post
+
+    createComment(input: CreateCommentInput!): Comment
+    updateComment(input: UpdateCommentInput!): Comment
+    deleteComment(input: DeleteCommentInput!): Comment
   }
 `;

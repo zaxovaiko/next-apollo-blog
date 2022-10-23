@@ -1,3 +1,4 @@
 {
-  "extends": "vazco/typescript"
+  "extends": "vazco/typescript",
+  "ignorePatterns": ["pages/_document.tsx"]
 }
