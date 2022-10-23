@@ -1,7 +1,6 @@
-import type { NextPage } from "next";
-import React from "react";
-
-import { Button, Group } from "@mantine/core";
+import { Button, Group } from '@mantine/core';
+import type { NextPage } from 'next';
+import React from 'react';
 
 const Home: NextPage = () => {
   return (
