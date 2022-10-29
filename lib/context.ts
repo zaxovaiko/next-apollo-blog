@@ -18,6 +18,8 @@ export const createContextHandler = async ({
   if (token) {
     try {
       const decodedToken = await fireAuth.verifyIdToken(token);
+
+      // TODO: Cache the user
       const userDoc = await fireStore
         .collection('users')
         .doc(decodedToken.uid)

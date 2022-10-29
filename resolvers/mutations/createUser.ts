@@ -25,6 +25,22 @@ export const createUser: MutationResolvers['createUser'] = async (
     throw new ValidationError(ErrorNames.SomeDataIsRequired);
   }
 
+  const usersWithExactUsername = await fireStore
+    .collection(FirestoreCollections.Users)
+    .where('username', '==', username)
+    .count()
+    .get();
+
+  const usersWithExactEmail = await fireStore
+    .collection(FirestoreCollections.Users)
+    .where('email', '==', email)
+    .count()
+    .get();
+
+  if (usersWithExactEmail.data().count || usersWithExactUsername.data().count) {
+    throw new ValidationError(ErrorNames.UserAlreadyExists);
+  }
+
   const oldUser = await fireStore
     .collection(FirestoreCollections.Users)
     .doc(decodedToken.uid)

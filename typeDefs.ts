@@ -6,12 +6,12 @@ export const typeDefs = gql`
   type User {
     avatar: String!
     email: String!
-    createdAt: Date
+    createdAt: Date!
     firstName: String
     id: ID!
     inactive: Boolean!
     lastName: String
-    updatedAt: Date
+    updatedAt: Date!
     username: String!
     posts: [Post!]
     comments: [Comment!]
@@ -54,7 +54,7 @@ export const typeDefs = gql`
     email: String
     firstName: String
     lastName: String
-    username: String!
+    username: String
   }
 
   input CreatePostInput {
