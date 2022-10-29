@@ -1,23 +1,51 @@
-import { ValidationError } from 'apollo-server-micro';
+import { AuthenticationError, ValidationError } from 'apollo-server-micro';
+import { isNil, omitBy } from 'lodash';
 
-import { MutationResolvers } from '../../generated/graphql';
-import { fireAuth } from '../../lib/firebase';
+import { MutationResolvers, User } from '../../generated/graphql';
+import {
+  DEFAULT_USER_AVATAR,
+  ErrorNames,
+  FirestoreCollections,
+} from '../../lib/enums';
+import { fireStore } from '../../lib/firebase';
 
 export const createUser: MutationResolvers['createUser'] = async (
   _parent,
   { input },
+  { decodedToken },
 ) => {
-  const { username, email, avatar } = input;
+  if (!decodedToken) {
+    throw new AuthenticationError(ErrorNames.TokenIdRequired);
+  }
+
+  const { username, email } = input;
 
   // TODO: Add validator like zod
   if (!username || !email) {
-    throw new ValidationError('Username and email are required');
+    throw new ValidationError(ErrorNames.SomeDataIsRequired);
   }
 
-  await fireAuth.createUser({
-    email,
-    photoURL: avatar,
-  });
+  const oldUser = await fireStore
+    .collection(FirestoreCollections.Users)
+    .doc(decodedToken.uid)
+    .get();
+  if (oldUser.exists) {
+    throw new ValidationError(ErrorNames.UserAlreadyExists);
+  }
 
-  return null;
+  const userPayload: User = {
+    avatar: DEFAULT_USER_AVATAR,
+    ...(omitBy(input, isNil) as Pick<User, 'username' | 'email'>),
+    id: decodedToken.uid,
+    inactive: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+
+  await fireStore
+    .collection(FirestoreCollections.Users)
+    .doc(decodedToken.uid)
+    .set(userPayload);
+
+  return userPayload;
 };
