@@ -2,6 +2,10 @@
   "name": "apollo-blog",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
   "scripts": {
     "dev": "concurrently --names \"codegen,prisma,dev\" -c \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" \"npm run codegen -- --watch\" \"npm run prisma:generate --watch\" \"next dev\"",
     "build": "next build",

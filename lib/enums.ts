@@ -1,3 +1,8 @@
+export enum NodeEnvs {
+  Development = 'development',
+  Production = 'production',
+}
+
 export enum FirestoreCollections {
   Users = 'users',
   Posts = 'posts',
