@@ -1,13 +1,8 @@
 import { AuthenticationError, ValidationError } from 'apollo-server-micro';
-import { isNil, omitBy } from 'lodash';
 
-import { MutationResolvers, User } from '../../generated/graphql';
-import {
-  DEFAULT_USER_AVATAR,
-  ErrorNames,
-  FirestoreCollections,
-} from '../../lib/enums';
-import { fireStore } from '../../lib/firebase';
+import { MutationResolvers } from '../../generated/graphql';
+import { DEFAULT_USER_AVATAR, ErrorNames } from '../../lib/enums';
+import { prisma } from '../../lib/prisma';
 
 export const createUser: MutationResolvers['createUser'] = async (
   _parent,
@@ -18,50 +13,30 @@ export const createUser: MutationResolvers['createUser'] = async (
     throw new AuthenticationError(ErrorNames.TokenIdRequired);
   }
 
-  const { username, email } = input;
+  const { username } = input;
 
   // TODO: Add validator like zod
-  if (!username || !email) {
+  if (!username) {
     throw new ValidationError(ErrorNames.SomeDataIsRequired);
   }
 
-  const usersWithExactUsername = await fireStore
-    .collection(FirestoreCollections.Users)
-    .where('username', '==', username)
-    .count()
-    .get();
-
-  const usersWithExactEmail = await fireStore
-    .collection(FirestoreCollections.Users)
-    .where('email', '==', email)
-    .count()
-    .get();
-
-  if (usersWithExactEmail.data().count || usersWithExactUsername.data().count) {
+  const existingUser = await prisma.user.findFirst({
+    where: { OR: [{ username }, { uid: decodedToken.uid }] },
+  });
+  if (existingUser) {
     throw new ValidationError(ErrorNames.UserAlreadyExists);
   }
 
-  const oldUser = await fireStore
-    .collection(FirestoreCollections.Users)
-    .doc(decodedToken.uid)
-    .get();
-  if (oldUser.exists) {
-    throw new ValidationError(ErrorNames.UserAlreadyExists);
-  }
-
-  const userPayload: User = {
-    avatar: DEFAULT_USER_AVATAR,
-    ...(omitBy(input, isNil) as Pick<User, 'username' | 'email'>),
-    id: decodedToken.uid,
-    inactive: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-
-  await fireStore
-    .collection(FirestoreCollections.Users)
-    .doc(decodedToken.uid)
-    .set(userPayload);
-
-  return userPayload;
+  return prisma.user.create({
+    data: {
+      avatar: input.avatar || DEFAULT_USER_AVATAR,
+      createdAt: new Date(),
+      firstName: input.firstName,
+      id: decodedToken.uid,
+      lastName: input.lastName,
+      uid: decodedToken.uid,
+      updatedAt: new Date(),
+      username: input.username,
+    },
+  });
 };

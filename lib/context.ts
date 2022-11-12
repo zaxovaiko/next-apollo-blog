@@ -1,8 +1,9 @@
+import { User } from '@prisma/client';
 import { MicroRequest } from 'apollo-server-micro/dist/types';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 
-import { User } from '../generated/graphql';
-import { fireAuth, fireStore } from './firebase';
+import { fireAuth } from './firebase';
+import { prisma } from './prisma';
 
 export type ApolloContext = {
   decodedToken: DecodedIdToken | null;
@@ -19,15 +20,13 @@ export const createContextHandler = async ({
     try {
       const decodedToken = await fireAuth.verifyIdToken(token);
 
-      // TODO: Cache the user
-      const userDoc = await fireStore
-        .collection('users')
-        .doc(decodedToken.uid)
-        .get();
+      const user = await prisma.user.findFirst({
+        where: { uid: decodedToken.uid },
+      });
 
       return {
         decodedToken,
-        user: (userDoc.data() as User) ?? null,
+        user: user ?? null,
       };
     } catch {
       return {

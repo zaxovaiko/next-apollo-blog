@@ -1,5 +1,7 @@
 export enum FirestoreCollections {
   Users = 'users',
+  Posts = 'posts',
+  Comments = 'comments',
 }
 
 export enum ErrorNames {

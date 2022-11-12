@@ -2,12 +2,8 @@ import { AuthenticationError, ValidationError } from 'apollo-server-micro';
 import { isNil, omitBy } from 'lodash';
 
 import { MutationResolvers } from '../../generated/graphql';
-import {
-  DEFAULT_USER_AVATAR,
-  ErrorNames,
-  FirestoreCollections,
-} from '../../lib/enums';
-import { fireStore } from '../../lib/firebase';
+import { DEFAULT_USER_AVATAR, ErrorNames } from '../../lib/enums';
+import { prisma } from '../../lib/prisma';
 
 export const updateUser: MutationResolvers['updateUser'] = async (
   _parent,
@@ -18,46 +14,22 @@ export const updateUser: MutationResolvers['updateUser'] = async (
     throw new AuthenticationError(ErrorNames.Unauthenticated);
   }
 
-  const { username, email, avatar } = input;
+  const { username, avatar } = input;
   if (username && username !== user.username) {
-    const usernames = await fireStore
-      .collection(FirestoreCollections.Users)
-      .where('username', '==', username)
-      .count()
-      .get();
-
-    if (usernames.data().count) {
+    const existingUser = await prisma.user.findFirst({ where: { username } });
+    if (existingUser) {
       throw new ValidationError(ErrorNames.UserAlreadyExists);
     }
   }
 
-  if (email && email !== user.email) {
-    const emails = await fireStore
-      .collection(FirestoreCollections.Users)
-      .where('email', '==', email)
-      .count()
-      .get();
-
-    if (emails.data().count) {
-      throw new ValidationError(ErrorNames.UserAlreadyExists);
-    }
-  }
-
-  const userPayload = {
-    ...omitBy(
-      {
-        ...input,
-        avatar: avatar === '' ? DEFAULT_USER_AVATAR : avatar,
-      },
-      isNil,
-    ),
-    updatedAt: new Date(),
-  };
-
-  await fireStore
-    .collection(FirestoreCollections.Users)
-    .doc(user.id)
-    .update(userPayload);
-
-  return { ...user, ...userPayload };
+  return prisma.user.update({
+    where: { id: user.id },
+    data: {
+      ...omitBy(
+        { ...input, avatar: avatar === '' ? DEFAULT_USER_AVATAR : avatar },
+        isNil,
+      ),
+      updatedAt: new Date(),
+    },
+  });
 };
