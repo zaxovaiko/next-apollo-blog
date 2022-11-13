@@ -1,5 +1,6 @@
 import { QueryResolvers } from '../../generated/graphql';
+import { prisma } from '../../lib/prisma';
 
 export const comments: QueryResolvers['comments'] = () => {
-  return null;
+  return prisma.comment.findMany();
 };

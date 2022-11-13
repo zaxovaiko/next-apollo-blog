@@ -9,16 +9,18 @@ datasource db {
 
 model Post {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  content      String
+  content      String?
   createdAt    DateTime @db.Date
   images       String[]
   isDraft      Boolean  @default(false)
-  previewImage String
+  previewImage String?
   title        String
   updatedAt    DateTime @db.Date
   userId       String   @db.ObjectId
   user         User     @relation(fields: [userId], references: [id])
   comments     Comment[]
+
+  @@unique(fields: [id, userId], name: "idUserId")
 }
 
 model User {
@@ -45,6 +47,8 @@ model Comment {
   userId    String   @db.ObjectId
   post      Post     @relation(fields: [postId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
+
+  @@unique(fields: [id, userId], name: "idUserId")
 }
 
 enum Role {

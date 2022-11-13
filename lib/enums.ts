@@ -14,6 +14,7 @@ export enum ErrorNames {
   TokenIdRequired = 'TOKEN_ID_REQUIRED',
   SomeDataIsRequired = 'SOME_DATA_IS_REQUIRED',
   UserAlreadyExists = 'USER_ALREADY_EXISTS',
+  PostTitleIsRequired = 'POST_TITLE_IS_REQUIRED',
 }
 
 export const DEFAULT_USER_AVATAR =

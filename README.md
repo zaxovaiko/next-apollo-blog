@@ -2,7 +2,7 @@
 
 The project was rewritten with Next.js and GraphQL.
 
-*Fill free to contribute even small things, I will be very happy with your help.*
+> Fill free to contribute even small things, I will be very happy with your help.*
 
 ## Installation
 
@@ -13,10 +13,14 @@ The project was rewritten with Next.js and GraphQL.
 
 The backend API you can find under `http://localhost:3000/api/graphql`
 
-## Project structure and ideas
+## Project structure and Business logic
 
 Basically this project is using `schema.graphql` for defining GraphQL schema and `prisma/schema.prisma` for defining
 Prisma database schema.
+
+From the business perspective this project is pretty much obvious. User can create draft posts which he can publish later. Also, everybody can comments posts.
+
+> There is no strict business rules which we are going to achieve, so fill free to propose your ideas and visions.
 
 ## Learn More
 
