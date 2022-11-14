@@ -1,4 +1,4 @@
 {
   "extends": "vazco/typescript",
-  "ignorePatterns": ["pages/_document.tsx", "generated/*"]
+  "ignorePatterns": ["pages/_document.tsx", "generated/*", "jest.config.js"]
 }

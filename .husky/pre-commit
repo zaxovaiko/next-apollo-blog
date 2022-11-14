@@ -4,4 +4,5 @@
 npm run codegen
 npm run lint
 npm run prisma:generate
+npm run test
 npm run build
