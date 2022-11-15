@@ -1,8 +1,9 @@
 import { AuthenticationError } from 'apollo-server-micro';
 
 import { MutationResolvers } from '../../generated/graphql';
-import { ErrorNames, FirestoreCollections } from '../../lib/enums';
-import { fireStore } from '../../lib/firebase';
+import { ErrorNames } from '../../lib/enums';
+import { fireAuth } from '../../lib/firebase';
+import { prisma } from '../../lib/prisma';
 
 export const deleteUser: MutationResolvers['deleteUser'] = async (
   _parent,
@@ -13,8 +14,10 @@ export const deleteUser: MutationResolvers['deleteUser'] = async (
     throw new AuthenticationError(ErrorNames.Unauthenticated);
   }
 
-  await fireStore.collection(FirestoreCollections.Users).doc(user.id).update({
-    inactive: true,
+  await fireAuth.deleteUser(user.uid);
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { inactive: true },
   });
 
   return { ...user, inactive: true };
