@@ -7,11 +7,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js 16
         uses: actions/setup-node@v3
         with:
           node-version: 16
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: 5.0
+          mongodb-username: root
+          mongodb-password: root
+
       - run: npm ci
       - run: npm run lint
       - run: npm run codegen
+      - run: npx prisma generate
+      - run: npm run test
+        env:
+          DATABASE_URL: mongodb+srv://root:root@mongodb/%3FretryWrites=true&w=majority
       - run: npm run build
+      

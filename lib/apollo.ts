@@ -1,39 +1,37 @@
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { loadTypedefsSync } from '@graphql-tools/load';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { TypeSource } from '@graphql-tools/utils';
 import { ApolloServer } from 'apollo-server-micro';
-import { makeExecutableSchema } from 'graphql-tools';
-import { RequestHandler } from 'micro';
 
 import { resolvers } from '../resolvers';
 import { createContextHandler } from './context';
 import { NodeEnvs } from './enums';
 import { prisma } from './prisma';
 
-const typeDefs = loadTypedefsSync('../', {
+const typeDefs = loadTypedefsSync('./schema.graphql', {
   loaders: [new GraphQLFileLoader()],
-}).filter(source => source.document) as TypeSource;
+}).map(e => e.document) as TypeSource[];
 
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
 
-export const apolloServer = new ApolloServer({
-  schema,
-  cache: 'bounded',
-  introspection: process.env.NODE_ENV === NodeEnvs.Development,
-  context: createContextHandler,
-});
-const startServer = apolloServer.start();
+export const createServer = () =>
+  new ApolloServer({
+    schema,
+    cache: 'bounded',
+    introspection: process.env.NODE_ENV === NodeEnvs.Development,
+    context: createContextHandler,
+  });
 
-export const handler: RequestHandler = async (req, res) => {
-  if (req.method === 'OPTIONS') {
-    res.end();
-    return;
-  }
-
-  await startServer;
+export const startServer = async (server: ApolloServer) => {
+  await server.start();
   await prisma.$connect();
-  await apolloServer.createHandler({ path: '/api/graphql' })(req, res);
+};
+
+export const stopServer = async (server: ApolloServer) => {
+  await server.stop();
+  await prisma.$disconnect();
 };
