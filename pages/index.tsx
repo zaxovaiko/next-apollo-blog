@@ -1,10 +1,10 @@
-import { Card, Flex, Grid, Text, Title } from '@mantine/core';
-import dayjs from 'dayjs';
+import { Grid } from '@mantine/core';
 import type { NextPage } from 'next';
 import React from 'react';
 
 import { useGetPostsQuery } from '../generated/client';
 import PostCardLoader from '../web/components/PostCardLoader';
+import PostsList from '../web/components/PostsList';
 
 const Home: NextPage = () => {
   const { data, loading, error } = useGetPostsQuery();
@@ -12,9 +12,11 @@ const Home: NextPage = () => {
   if (loading) {
     return (
       <Grid>
-        <Grid.Col span={6} offset={3}>
-          <PostCardLoader />
-        </Grid.Col>
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Grid.Col key={i} span={6} offset={3}>
+            <PostCardLoader />
+          </Grid.Col>
+        ))}
       </Grid>
     );
   }
@@ -23,25 +25,7 @@ const Home: NextPage = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  return (
-    <Grid>
-      {data?.posts?.map(post => (
-        <Grid.Col offset={3} span={6} key={post.id}>
-          <Card shadow="sm" radius="md">
-            <Flex align="center">
-              <Title order={3}>{post.title}</Title>
-              <Text ml="auto" size="xs">
-                {dayjs(post.createdAt as Date).fromNow()}
-              </Text>
-            </Flex>
-            <Text size="sm" color="dimmed">
-              {post.content}
-            </Text>
-          </Card>
-        </Grid.Col>
-      ))}
-    </Grid>
-  );
+  return <PostsList posts={data?.posts} />;
 };
 
 export default Home;

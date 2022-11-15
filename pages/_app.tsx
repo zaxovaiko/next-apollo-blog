@@ -9,6 +9,7 @@ import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import React from 'react';
 
 import { Sidebar } from '../web/components/Sidebar';
@@ -28,22 +29,32 @@ const App = ({ Component, pageProps }: AppProps) => {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{ colorScheme }}
+    <>
+      <Head>
+        <title>Apollo-blog</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
       >
-        <ApolloProvider client={client}>
-          <AppShell padding="md" navbar={<Sidebar />}>
-            <Component {...pageProps} />
-          </AppShell>
-        </ApolloProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{ colorScheme }}
+        >
+          <ApolloProvider client={client}>
+            <AppShell padding="md" navbar={<Sidebar />}>
+              <Component {...pageProps} />
+            </AppShell>
+          </ApolloProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </>
   );
 };
 
