@@ -21,9 +21,9 @@ jobs:
           mongodb-password: root
 
       - run: npm ci
-      - run: npm run lint
       - run: npm run codegen
       - run: npx prisma generate
+      - run: npm run lint
       - run: npm run test
         env:
           DATABASE_URL: mongodb+srv://root:root@mongodb/%3FretryWrites=true&w=majority
