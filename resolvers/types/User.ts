@@ -1,4 +1,4 @@
-import { UserResolvers } from '../../generated/graphql';
+import { UserResolvers } from '../../generated/server';
 import { ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
 

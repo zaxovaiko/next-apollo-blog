@@ -4,12 +4,20 @@ The project was rewritten with Next.js and GraphQL.
 
 > Fill free to contribute even small things, I will be very happy with your help.*
 
+## Required tools
+
+1. Node.js >= 16
+2. `npm` >= 8
+3. MongoDB >= 5.0
+
 ## Installation
 
 1. Clone or fork this repository.
 2. Create or ask someone for `.env` file which contains Firebase keys and other stuff.
 3. Run `npm install`
-4. Run `npm run dev`
+4. Run `npx prisma generate`
+5. Run `npx prisma db seed`
+6. Run `npm run dev`
 
 The backend API you can find under `http://localhost:3000/api/graphql`
 

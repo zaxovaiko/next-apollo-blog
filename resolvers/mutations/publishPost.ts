@@ -1,4 +1,4 @@
-import { MutationResolvers } from '../../generated/graphql';
+import { MutationResolvers } from '../../generated/server';
 import { ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
 

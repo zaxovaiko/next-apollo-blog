@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server-micro';
 
-import { MutationResolvers } from '../../generated/graphql';
+import { MutationResolvers } from '../../generated/server';
 import { ErrorNames } from '../../lib/enums';
 import { fireAuth } from '../../lib/firebase';
 import { prisma } from '../../lib/prisma';

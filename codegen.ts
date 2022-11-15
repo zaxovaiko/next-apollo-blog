@@ -2,9 +2,9 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: './schema.graphql',
+  schema: '**/*.graphql',
   generates: {
-    'generated/graphql.ts': {
+    'generated/server.ts': {
       config: {
         contextType: '../lib/context#ApolloContext',
         mappers: {
@@ -17,6 +17,14 @@ const config: CodegenConfig = {
         'typescript',
         'typescript-resolvers',
         'typescript-document-nodes',
+      ],
+    },
+    'generated/client.ts': {
+      documents: './web/graphql/**.graphql',
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
       ],
     },
   },

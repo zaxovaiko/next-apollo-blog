@@ -1,4 +1,4 @@
-import { QueryResolvers } from '../../generated/graphql';
+import { QueryResolvers } from '../../generated/server';
 
 export const currentUser: QueryResolvers['currentUser'] = (
   _parent,

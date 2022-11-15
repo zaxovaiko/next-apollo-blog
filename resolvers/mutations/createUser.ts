@@ -1,6 +1,6 @@
 import { AuthenticationError, ValidationError } from 'apollo-server-micro';
 
-import { MutationResolvers } from '../../generated/graphql';
+import { MutationResolvers } from '../../generated/server';
 import { DEFAULT_USER_AVATAR, ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
 
