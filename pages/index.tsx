@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   if (loading) {
     return (
       <Grid>
+        Loading
         {Array.from({ length: 3 }).map((_, i) => (
           <Grid.Col key={i} span={6} offset={3}>
             <PostCardLoader />
