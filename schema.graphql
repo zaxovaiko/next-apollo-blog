@@ -89,10 +89,15 @@ input DeleteCommentInput {
   id: ID!
 }
 
+input PostInput {
+  id: ID!
+}
+
 type Query {
   currentUser: User
   users: [User!]
   posts: [Post!]
+  post(input: PostInput!): Post
   comments: [Comment!]
 }
 

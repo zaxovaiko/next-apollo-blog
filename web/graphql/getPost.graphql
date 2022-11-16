@@ -1,9 +1,9 @@
-query getPosts {
-  posts {
+query getPost($input: PostInput!) {
+  post(input: $input) {
     id
     title
-    content
     previewImage
+    content
     createdAt
     user {
       avatar

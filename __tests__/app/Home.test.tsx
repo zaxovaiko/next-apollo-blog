@@ -1,13 +1,11 @@
 import { MockedProvider } from '@apollo/client/testing';
-import { render, screen, waitFor } from '@testing-library/react';
-
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import '@testing-library/jest-dom';
 
 import { GetPostsDocument } from '../../generated/client';
 import Home from '../../pages';
-
 
 const mocks = [
   {
@@ -21,6 +19,7 @@ const mocks = [
             id: 1,
             title: 'Mocked title',
             content: 'Mocked content',
+            previewImage: 'https://via.placeholder.com/150',
             createdAt: new Date(),
             user: {
               avatar:
@@ -43,9 +42,6 @@ describe('Home', () => {
       </MockedProvider>,
     );
 
-    expect(await screen.findByText('Loading')).toBeInTheDocument();
-    await waitFor(async () =>
-      expect(await screen.findByText('mocked')).toBeInTheDocument(),
-    );
+    expect(await screen.findByText('Mocked title')).toBeInTheDocument();
   });
 });
