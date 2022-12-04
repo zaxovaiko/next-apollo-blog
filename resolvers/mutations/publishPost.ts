@@ -1,15 +1,14 @@
 import { MutationResolvers } from '../../generated/server';
 import { ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
+import { checkUserPermissionsOrThrow } from '../../lib/utils';
 
 export const publishPost: MutationResolvers['publishPost'] = async (
   _,
   { input },
   { user },
 ) => {
-  if (!user) {
-    throw new Error(ErrorNames.Unauthenticated);
-  }
+  checkUserPermissionsOrThrow(user);
 
   const post = await prisma.post.findFirstOrThrow({
     where: { id: input.id, userId: user.id },

@@ -1,18 +1,14 @@
-import { AuthenticationError } from 'apollo-server-micro';
-
 import { MutationResolvers } from '../../generated/server';
-import { ErrorNames } from '../../lib/enums';
 import { fireAuth } from '../../lib/firebase';
 import { prisma } from '../../lib/prisma';
+import { checkUserPermissionsOrThrow } from '../../lib/utils';
 
 export const deleteUser: MutationResolvers['deleteUser'] = async (
   _parent,
   _args,
   { user },
 ) => {
-  if (!user) {
-    throw new AuthenticationError(ErrorNames.Unauthenticated);
-  }
+  checkUserPermissionsOrThrow(user);
 
   await fireAuth.deleteUser(user.uid);
   await prisma.user.update({

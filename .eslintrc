@@ -1,6 +1,11 @@
 {
   "extends": "vazco/typescript",
-  "ignorePatterns": ["generated/*", "jest.config.js", "next.config.js"],
+  "ignorePatterns": [
+    "generated/*",
+    "jest.config.js",
+    "next.config.js",
+    "public/*"
+  ],
   "rules": {
     "@typescript-eslint/unbound-method": "warn"
   }

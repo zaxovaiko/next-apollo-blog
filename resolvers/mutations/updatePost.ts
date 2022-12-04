@@ -2,17 +2,15 @@ import { Post } from '@prisma/client';
 import { isNil, omitBy } from 'lodash';
 
 import { MutationResolvers } from '../../generated/server';
-import { ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
+import { checkUserPermissionsOrThrow } from '../../lib/utils';
 
 export const updatePost: MutationResolvers['updatePost'] = (
   _,
   { input },
   { user },
 ) => {
-  if (!user) {
-    throw new Error(ErrorNames.Unauthenticated);
-  }
+  checkUserPermissionsOrThrow(user);
 
   const updatePayload = omitBy(input, isNil) as Partial<Post>;
   return prisma.post.update({

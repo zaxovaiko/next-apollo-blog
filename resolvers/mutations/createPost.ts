@@ -1,15 +1,14 @@
 import { MutationResolvers } from '../../generated/server';
-import { ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
+import { checkUserPermissionsOrThrow } from '../../lib/utils';
 
 export const createPost: MutationResolvers['createPost'] = async (
   _,
   { input },
   { user },
 ) => {
-  if (!user) {
-    throw new Error(ErrorNames.Unauthenticated);
-  }
+  checkUserPermissionsOrThrow(user);
+
   const { title, images, content, previewImage } = input;
   return prisma.post.create({
     data: {

@@ -1,18 +1,17 @@
-import { AuthenticationError, ValidationError } from 'apollo-server-micro';
+import { ValidationError } from 'apollo-server-micro';
 import { isNil, omitBy } from 'lodash';
 
 import { MutationResolvers } from '../../generated/server';
 import { DEFAULT_USER_AVATAR, ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
+import { checkUserPermissionsOrThrow } from '../../lib/utils';
 
 export const updateUser: MutationResolvers['updateUser'] = async (
   _parent,
   { input },
   { user },
 ) => {
-  if (!user) {
-    throw new AuthenticationError(ErrorNames.Unauthenticated);
-  }
+  checkUserPermissionsOrThrow(user);
 
   const { username, avatar } = input;
   if (username && username !== user.username) {
