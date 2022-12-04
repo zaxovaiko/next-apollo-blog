@@ -1,0 +1,10 @@
+fragment PostThumbnail on Post {
+  id
+  title
+  previewImage
+  content
+  createdAt
+  user {
+    ...UserThumbnail
+  }
+}

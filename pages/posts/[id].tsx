@@ -1,7 +1,10 @@
+import { Divider, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { Post, useGetPostQuery } from '../../generated/client';
+import { useGetPostQuery } from '../../generated/client';
+import { PostCommentsList } from '../../web/components/comments/PostCommentsList';
+import { PageLoader } from '../../web/components/loaders/PageLoader';
 import PostCard from '../../web/components/posts/PostCard';
 
 const PostPage = () => {
@@ -10,17 +13,29 @@ const PostPage = () => {
 
   const { data, loading, error } = useGetPostQuery({
     variables: { input: { id: id as string } },
+    fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-first',
   });
 
-  if (!data || loading) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <PageLoader />;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (error || !data?.post) {
+    return <div>{error?.message ?? 'Something went wrong...'}</div>;
   }
 
-  return <PostCard post={data.post as Post} />;
+  return (
+    <>
+      <PostCard post={data.post} />
+      <Text size="xl" mt={20}>
+        {data.post.content}
+      </Text>
+      <Divider my="xl" />
+
+      <PostCommentsList id={id as string} />
+    </>
+  );
 };
 
 export default PostPage;

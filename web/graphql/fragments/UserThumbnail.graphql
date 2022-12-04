@@ -1,0 +1,5 @@
+fragment UserThumbnail on User {
+  avatar
+  id
+  username
+}

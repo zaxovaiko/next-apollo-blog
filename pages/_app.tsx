@@ -3,6 +3,7 @@ import {
   AppShell,
   ColorScheme,
   ColorSchemeProvider,
+  Container,
   MantineProvider,
 } from '@mantine/core';
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
@@ -12,7 +13,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
-import { Sidebar } from '../web/components/layouts/Sidebar';
+import AppHeader from '../web/components/layouts/AppHeader';
 import { client } from '../web/lib/apollo';
 
 dayjs.extend(relativeTime);
@@ -36,6 +37,17 @@ const App = ({ Component, pageProps }: AppProps) => {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       <ColorSchemeProvider
@@ -45,11 +57,13 @@ const App = ({ Component, pageProps }: AppProps) => {
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
-          theme={{ colorScheme }}
+          theme={{ colorScheme, fontFamily: 'Inter, sans-serif' }}
         >
           <ApolloProvider client={client}>
-            <AppShell padding="md" navbar={<Sidebar />}>
-              <Component {...pageProps} />
+            <AppShell padding="md" header={<AppHeader />}>
+              <Container size="sm">
+                <Component {...pageProps} />
+              </Container>
             </AppShell>
           </ApolloProvider>
         </MantineProvider>

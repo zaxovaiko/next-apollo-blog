@@ -5,9 +5,9 @@ import React, { memo } from 'react';
 import PostCardLoader from './PostCardLoader';
 
 const PostsListLoader = () => (
-  <Grid>
-    {Array.from({ length: Math.floor(Math.random() * 6) }).map((_, i) => (
-      <Grid.Col key={i} span={6} offset={3} mb="md">
+  <Grid role="alert">
+    {Array.from({ length: Math.floor(Math.random() * 6) + 2 }).map((_, i) => (
+      <Grid.Col key={i} span={12} mb="md">
         <PostCardLoader />
       </Grid.Col>
     ))}

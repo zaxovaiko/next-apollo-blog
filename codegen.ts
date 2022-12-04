@@ -20,7 +20,7 @@ const config: CodegenConfig = {
       ],
     },
     'generated/client.ts': {
-      documents: './web/graphql/**.graphql',
+      documents: './web/graphql/**/*.graphql',
       plugins: [
         'typescript',
         'typescript-operations',

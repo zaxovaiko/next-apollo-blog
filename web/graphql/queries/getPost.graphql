@@ -1,0 +1,5 @@
+query getPost($input: PostInput!) {
+  post(input: $input) {
+    ...PostThumbnail
+  }
+}

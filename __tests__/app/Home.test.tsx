@@ -14,14 +14,18 @@ const mocks = [
     },
     result: {
       data: {
+        // MockerProvider requires defining __typename for each type
+        __typename: 'Query',
         posts: [
           {
+            __typename: 'Post',
             id: 1,
             title: 'Mocked title',
             content: 'Mocked content',
             previewImage: 'https://via.placeholder.com/150',
             createdAt: new Date(),
             user: {
+              __typename: 'User',
               avatar:
                 'https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png',
               id: 1,
@@ -37,11 +41,13 @@ const mocks = [
 describe('Home', () => {
   it('renders a text', async () => {
     render(
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks} addTypename>
         <Home />
       </MockedProvider>,
     );
 
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
     expect(await screen.findByText('Mocked title')).toBeInTheDocument();
+    expect(await screen.findByText('mocked')).toBeInTheDocument();
   });
 });

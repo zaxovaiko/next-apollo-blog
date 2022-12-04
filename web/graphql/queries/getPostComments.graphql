@@ -1,0 +1,12 @@
+query getPostComments($input: PostInput!) {
+  post(input: $input) {
+    comments {
+      id
+      text
+      createdAt
+      user {
+        ...UserThumbnail
+      }
+    }
+  }
+}

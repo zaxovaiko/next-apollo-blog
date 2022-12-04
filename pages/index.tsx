@@ -16,7 +16,7 @@ const Home: NextPage = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  return <PostsList posts={data?.posts} />;
+  return <PostsList posts={data?.posts ?? []} />;
 };
 
 export default Home;
