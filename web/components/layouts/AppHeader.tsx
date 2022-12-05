@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Box,
+  Button,
   Container,
   Flex,
   Header,
@@ -19,6 +20,7 @@ const AppHeader = () => {
       <Container size="sm">
         <Flex my={25} justify="space-between">
           <ActionIcon
+            sx={{ alignSelf: 'center' }}
             variant="outline"
             color={dark ? 'yellow' : 'blue'}
             onClick={() => toggleColorScheme()}
@@ -29,7 +31,9 @@ const AppHeader = () => {
           <Title order={2} mb={0}>
             ApolloBlog
           </Title>
-          <Box w="25" />
+          <Box>
+            <Button variant="outline">Sign in with Google</Button>
+          </Box>
         </Flex>
       </Container>
     </Header>

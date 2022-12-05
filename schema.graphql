@@ -77,6 +77,7 @@ input DeletePostInput {
 }
 
 input CreateCommentInput {
+  postId: ID!
   text: String!
 }
 
@@ -113,5 +114,5 @@ type Mutation {
 
   createComment(input: CreateCommentInput!): Comment
   updateComment(input: UpdateCommentInput!): Comment
-  deleteComment(input: DeleteCommentInput!): Comment
+  deleteComment(input: DeleteCommentInput!): ID
 }

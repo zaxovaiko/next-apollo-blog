@@ -1,12 +1,10 @@
 import { UserResolvers } from '../../generated/server';
-import { ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
+import { checkUserPermissionsOrThrow } from '../../lib/utils';
 
 export const User: UserResolvers = {
   posts: async (parent, _args, { user }) => {
-    if (!user) {
-      throw new Error(ErrorNames.Unauthenticated);
-    }
+    checkUserPermissionsOrThrow(user);
     return prisma.post.findMany({
       where: {
         OR: [{ userId: user.id }, { userId: parent.id, isDraft: false }],

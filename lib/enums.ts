@@ -3,18 +3,14 @@ export enum NodeEnvs {
   Production = 'production',
 }
 
-export enum FirestoreCollections {
-  Users = 'users',
-  Posts = 'posts',
-  Comments = 'comments',
-}
-
 export enum ErrorNames {
   Unauthenticated = 'UNAUTHENTICATED',
   TokenIdRequired = 'TOKEN_ID_REQUIRED',
   SomeDataIsRequired = 'SOME_DATA_IS_REQUIRED',
   UserAlreadyExists = 'USER_ALREADY_EXISTS',
   PostTitleIsRequired = 'POST_TITLE_IS_REQUIRED',
+  InvalidCommentLength = 'INVALID_COMMENT_LENGTH',
+  CanNotCreateCommentOnDraftPost = 'CAN_NOT_CREATE_COMMENT_ON_DRAFT_POST',
 }
 
 export const DEFAULT_USER_AVATAR =
