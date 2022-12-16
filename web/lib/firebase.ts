@@ -14,9 +14,9 @@ const firebaseConfig = {
 let fireApp: FirebaseApp;
 
 if (getApps().length > 0) {
-  fireApp = getApp();
+  fireApp = getApp('default');
 } else {
-  fireApp = initializeApp(firebaseConfig);
+  fireApp = initializeApp(firebaseConfig, 'default');
 }
 
 export const app = fireApp;
