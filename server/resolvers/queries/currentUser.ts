@@ -1,4 +1,4 @@
-import { QueryResolvers } from '../../generated/server';
+import { QueryResolvers } from '../../../generated/server';
 
 export const currentUser: QueryResolvers['currentUser'] = (
   _parent,

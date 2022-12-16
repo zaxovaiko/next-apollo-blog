@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   generates: {
     'generated/server.ts': {
       config: {
-        contextType: '../lib/context#ApolloContext',
+        contextType: '../server/lib/context#ApolloContext',
         mappers: {
           User: '.prisma/client#User as UserType',
           Post: '.prisma/client#Post as PostType',

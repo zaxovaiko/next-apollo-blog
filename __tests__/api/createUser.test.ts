@@ -1,4 +1,4 @@
-import { createServer, startServer, stopServer } from '../../lib/apollo';
+import { createServer, startServer, stopServer } from '../../server/lib/apollo';
 
 const server = createServer();
 

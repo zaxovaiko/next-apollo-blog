@@ -1,7 +1,7 @@
 import { ValidationError } from 'apollo-server-micro';
 import { isNil, omitBy } from 'lodash';
 
-import { MutationResolvers } from '../../generated/server';
+import { MutationResolvers } from '../../../generated/server';
 import { DEFAULT_USER_AVATAR, ErrorNames } from '../../lib/enums';
 import { prisma } from '../../lib/prisma';
 import { checkUserPermissionsOrThrow } from '../../lib/utils';

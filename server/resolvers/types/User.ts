@@ -1,4 +1,4 @@
-import { UserResolvers } from '../../generated/server';
+import { UserResolvers } from '../../../generated/server';
 import { prisma } from '../../lib/prisma';
 import { checkUserPermissionsOrThrow } from '../../lib/utils';
 

@@ -1,4 +1,4 @@
-import { PostResolvers } from '../../generated/server';
+import { PostResolvers } from '../../../generated/server';
 import { prisma } from '../../lib/prisma';
 
 export const Post: PostResolvers = {

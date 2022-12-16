@@ -1,4 +1,4 @@
-import { MutationResolvers } from '../../generated/server';
+import { MutationResolvers } from '../../../generated/server';
 import { fireAuth } from '../../lib/firebase';
 import { prisma } from '../../lib/prisma';
 import { checkUserPermissionsOrThrow } from '../../lib/utils';

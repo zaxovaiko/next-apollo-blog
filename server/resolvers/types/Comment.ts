@@ -1,4 +1,4 @@
-import { CommentResolvers } from '../../generated/server';
+import { CommentResolvers } from '../../../generated/server';
 import { prisma } from '../../lib/prisma';
 
 export const Comment: CommentResolvers = {

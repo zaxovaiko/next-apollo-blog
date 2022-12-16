@@ -1,7 +1,7 @@
 import { Post } from '@prisma/client';
 import { isNil, omitBy } from 'lodash';
 
-import { MutationResolvers } from '../../generated/server';
+import { MutationResolvers } from '../../../generated/server';
 import { prisma } from '../../lib/prisma';
 import { checkUserPermissionsOrThrow } from '../../lib/utils';
 

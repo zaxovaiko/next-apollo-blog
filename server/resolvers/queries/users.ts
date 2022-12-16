@@ -1,4 +1,4 @@
-import { QueryResolvers } from '../../generated/server';
+import { QueryResolvers } from '../../../generated/server';
 import { prisma } from '../../lib/prisma';
 
 export const users: QueryResolvers['users'] = () => {

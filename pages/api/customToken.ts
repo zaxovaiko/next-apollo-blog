@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { fireAuth } from '../../lib/firebase';
+import { fireAuth } from '../../server/lib/firebase';
 
 type FirebaseExchangeCustomTokenResponse = {
   idToken: string;

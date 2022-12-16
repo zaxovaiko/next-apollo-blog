@@ -6,7 +6,7 @@
     "node": ">=16",
     "npm": ">=8"
   },
-  "main": "resolvers/index.ts",
+  "main": "server/resolvers/index.ts",
   "scripts": {
     "dev": "concurrently --names \"codegen,prisma,dev\" -c \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" \"npm run codegen -- --watch\" \"npm run prisma:generate --watch\" \"next dev\"",
     "build": "next build",
@@ -18,7 +18,7 @@
     "prepare": "husky install"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} server/lib/prisma/seed.ts"
   },
   "dependencies": {
     "@apollo/client": "3.7.0",

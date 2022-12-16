@@ -3,7 +3,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 
-jest.mock('../lib/firebase', () => ({
+jest.mock('../server/lib/firebase', () => ({
   __esModule: true,
   firebaseAuth: {
     deleteUser: (uid: string) => uid,
