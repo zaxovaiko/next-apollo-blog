@@ -18,6 +18,7 @@
     "prepare": "husky install"
   },
   "prisma": {
+    "schema": "server/lib/prisma/schema.prisma",
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} server/lib/prisma/seed.ts"
   },
   "dependencies": {
