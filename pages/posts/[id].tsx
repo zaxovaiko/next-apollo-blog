@@ -1,11 +1,11 @@
-import { Divider, Text } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { useGetPostQuery } from '../../generated/client';
-import { PostCommentsList } from '../../web/components/comments/PostCommentsList';
 import { PageLoader } from '../../web/components/loaders/PageLoader';
-import PostCard from '../../web/components/posts/PostCard';
+import PostAuthorSection from '../../web/components/molecules/PostAuthorSection';
+import PostContent from '../../web/components/organisms/PostContent';
 
 const PostPage = () => {
   const router = useRouter();
@@ -27,13 +27,19 @@ const PostPage = () => {
 
   return (
     <>
-      <PostCard post={data.post} />
-      <Text size="xl" mt={20}>
-        {data.post.content}
-      </Text>
-      <Divider my="xl" />
-
-      <PostCommentsList id={id as string} />
+      <Grid>
+        <Grid.Col xs={9}>
+          <PostContent post={data.post} />
+        </Grid.Col>
+        <Grid.Col xs={3}>
+          <PostAuthorSection
+            avatar={data.post.user.avatar}
+            username={data.post.user.username}
+            userPostTotal={2}
+            userId={data.post.user.id}
+          />
+        </Grid.Col>
+      </Grid>
     </>
   );
 };

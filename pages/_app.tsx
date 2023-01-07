@@ -13,7 +13,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
-import AppHeader from '../web/components/layouts/AppHeader';
+import AppHeader from '../web/components/organisms/AppHeader';
 import { client } from '../web/lib/apollo';
 
 dayjs.extend(relativeTime);
