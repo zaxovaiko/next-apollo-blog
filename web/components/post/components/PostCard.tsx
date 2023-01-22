@@ -1,11 +1,11 @@
 import { Avatar, Box, Card, Flex, Image, Text } from '@mantine/core';
-import { NextLink } from '@mantine/next';
 import dayjs from 'dayjs';
+import { PostThumbnailFragment } from 'generated/client';
+import { useRouter } from 'next/router';
 import React from 'react';
 
-import { PostThumbnailFragment } from '../../../generated/client';
-
-const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
+export const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
+  const router = useRouter();
   return (
     <Box sx={{ position: 'relative' }}>
       <Card shadow="sm" radius="md">
@@ -20,22 +20,16 @@ const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
               width: '100%',
               padding: 20,
               bottom: 0,
+              cursor: 'pointer',
               zIndex: 2,
             }}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- no need to await
+            onClick={() => router.push(`/posts/${post.id}`)}
           >
             <Avatar h={60} w={60} src={post.user.avatar} radius="xl" mr="sm" />
             <Box>
-              <Text fw="bold" size="lg">
-                <NextLink
-                  href={`/posts/${post.id}`}
-                  legacyBehavior
-                  style={{
-                    textDecoration: 'none',
-                    color: 'white',
-                  }}
-                >
-                  {post.title}
-                </NextLink>
+              <Text fw="bold" size="lg" color="white">
+                {post.title}
               </Text>
               <Text size="xs" color="gray.2">
                 {post.user.username}
@@ -50,5 +44,3 @@ const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
     </Box>
   );
 };
-
-export default PostCard;

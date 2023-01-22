@@ -1,5 +1,6 @@
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen } from '@testing-library/react';
+import mockRouter from 'next-router-mock';
 import React from 'react';
 
 import '@testing-library/jest-dom';
@@ -40,6 +41,8 @@ const mocks = [
 
 describe('Home', () => {
   it('renders a text', async () => {
+    await mockRouter.push('/');
+
     render(
       <MockedProvider mocks={mocks} addTypename>
         <Home />

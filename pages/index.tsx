@@ -2,8 +2,8 @@ import type { NextPage } from 'next';
 import React from 'react';
 
 import { useGetPostsQuery } from '../generated/client';
-import PostsListLoader from '../web/components/loaders/PostsListLoader';
-import PostsList from '../web/components/posts/PostsList';
+import { PostsList } from '../web/components/post/PostsList';
+import PostsListLoader from '../web/components/post/components/PostsListLoader';
 
 const Home: NextPage = () => {
   const { data, loading, error } = useGetPostsQuery();

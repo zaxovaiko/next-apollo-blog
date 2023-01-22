@@ -1,8 +1,7 @@
 import { Grid } from '@mantine/core';
 import dynamic from 'next/dynamic';
 import React, { memo } from 'react';
-
-import PostCardLoader from './PostCardLoader';
+import PostCardLoader from 'web/components/post/components/PostCardLoader';
 
 const PostsListLoader = () => (
   <Grid role="alert">

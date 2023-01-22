@@ -2,9 +2,13 @@ import { Grid } from '@mantine/core';
 import React from 'react';
 
 import { PostThumbnailFragment } from '../../../generated/client';
-import PostCard from './PostCard';
+import { PostCard } from './components/PostCard';
 
-const PostsList = ({ posts = [] }: { posts: PostThumbnailFragment[] }) => {
+export const PostsList = ({
+  posts = [],
+}: {
+  posts: PostThumbnailFragment[];
+}) => {
   return (
     <Grid>
       {posts.map(post => (
@@ -15,5 +19,3 @@ const PostsList = ({ posts = [] }: { posts: PostThumbnailFragment[] }) => {
     </Grid>
   );
 };
-
-export default PostsList;
