@@ -12,6 +12,9 @@ const config: CodegenConfig = {
           Post: '.prisma/client#Post as PostType',
           Comment: '.prisma/client#Comment as CommentType',
         },
+        scalars: {
+          DateTime: 'Date',
+        },
       },
       plugins: [
         'typescript',
@@ -26,6 +29,11 @@ const config: CodegenConfig = {
         'typescript-operations',
         'typescript-react-apollo',
       ],
+      config: {
+        scalars: {
+          DateTime: 'Date',
+        },
+      },
     },
   },
 };

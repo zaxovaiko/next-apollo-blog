@@ -1,4 +1,4 @@
-scalar Date
+scalar DateTime
 
 enum Role {
   USER
@@ -7,13 +7,11 @@ enum Role {
 
 type User {
   avatar: String!
-  createdAt: Date!
-  firstName: String
+  createdAt: DateTime!
+  displayName: String
   id: ID!
   inactive: Boolean!
-  lastName: String
-  updatedAt: Date!
-  username: String!
+  updatedAt: DateTime!
   posts: [Post!]
   comments: [Comment!]
   role: Role!
@@ -21,12 +19,12 @@ type User {
 
 type Post {
   content: String
-  createdAt: Date
+  createdAt: DateTime
   comments: [Comment!]
   id: ID!
   isDraft: Boolean
   title: String!
-  updatedAt: Date
+  updatedAt: DateTime
   previewImage: String
   images: [String!]
   upvotes: Int!
@@ -34,27 +32,23 @@ type Post {
 }
 
 type Comment {
-  createdAt: Date
+  createdAt: DateTime
   id: ID!
   post: Post!
   text: String!
-  updatedAt: Date
+  updatedAt: DateTime
   upvotes: Int
   user: User!
 }
 
 input CreateUserInput {
   avatar: String
-  firstName: String
-  lastName: String
-  username: String!
+  displayName: String
 }
 
 input UpdateUserInput {
   avatar: String
-  firstName: String
-  lastName: String
-  username: String
+  displayName: String
 }
 
 input CreatePostInput {
@@ -94,16 +88,55 @@ input PostInput {
   id: ID!
 }
 
+type PageInfo {
+  cursor: String
+  hasMore: Boolean!
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment!
+}
+
+type PostEdge {
+  cursor: String!
+  node: Post!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
+type PostConnection {
+  edges: [PostEdge!]!
+  pageInfo: PageInfo!
+}
+
+type CommentConnection {
+  edges: [CommentEdge!]!
+  pageInfo: PageInfo!
+}
+
+input PaginationInput {
+  first: Int
+  after: String
+}
+
 type Query {
   currentUser: User
-  users: [User!]
-  posts: [Post!]
+  users(input: PaginationInput): UserConnection!
+  posts(input: PaginationInput): PostConnection!
+  comments(input: PaginationInput): CommentConnection!
   post(input: PostInput!): Post
-  comments: [Comment!]
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User
   updateUser(input: UpdateUserInput!): User
   deleteUser: User
 

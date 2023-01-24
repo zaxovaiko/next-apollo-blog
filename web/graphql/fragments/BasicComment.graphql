@@ -1,0 +1,8 @@
+fragment BasicComment on Comment {
+  id
+  text
+  createdAt
+  user {
+    ...UserThumbnail
+  }
+}

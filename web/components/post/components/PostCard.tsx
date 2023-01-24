@@ -32,7 +32,7 @@ export const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
                 {post.title}
               </Text>
               <Text size="xs" color="gray.2">
-                {post.user.username}
+                {post.user.displayName}
               </Text>
             </Box>
             <Text ml="auto" size="xs" color="gray.2">

@@ -18,7 +18,7 @@ export const PostAuthorCard = ({ user }: { user: UserThumbnailFragment }) => {
         style={{ textDecoration: 'none', cursor: 'pointer' }}
       >
         <Text my="lg" fw="bold" size={16} sx={{ cursor: 'pointer' }}>
-          {user.username}
+          {user.displayName}
         </Text>
       </Link>
     </Box>

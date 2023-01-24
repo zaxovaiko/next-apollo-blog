@@ -22,5 +22,5 @@ if (getApps().length > 0) {
 export const app = fireApp;
 export const auth = getAuth(app);
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+// eslint-disable-next-line @typescript-eslint/no-floating-promises -- This is intentional
 auth.setPersistence(browserLocalPersistence);

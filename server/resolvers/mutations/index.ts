@@ -1,6 +1,5 @@
 export * from './createComment';
 export * from './createPost';
-export * from './createUser';
 export * from './deleteComment';
 export * from './deletePost';
 export * from './deleteUser';

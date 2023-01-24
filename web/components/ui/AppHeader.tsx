@@ -3,23 +3,20 @@ import {
   Button,
   Container,
   Flex,
-  Group,
   Header,
   Text,
   Title,
   useMantineColorScheme,
 } from '@mantine/core';
-import { IconMoonStars, IconSun } from '@tabler/icons';
+import { IconArrowBackUp, IconMoonStars, IconSun } from '@tabler/icons';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-
-import { auth } from '../../lib/firebase';
-import { ReturnButton } from './ReturnButton';
+import { auth } from 'web/lib/firebase';
 
 export const AppHeader = () => {
   const [user] = useAuthState(auth);
-  const { pathname, push } = useRouter();
+  const { pathname, push, back } = useRouter();
 
   // TODO: Handle error and loading states
   const [signInWithGoogle] = useSignInWithGoogle(auth);
@@ -27,12 +24,36 @@ export const AppHeader = () => {
 
   const dark = colorScheme === 'dark';
 
+  useEffect(() => {
+    async function writeToken() {
+      if (user) {
+        localStorage.setItem('token', `Bearer ${await user.getIdToken()}`);
+      }
+    }
+
+    writeToken().catch(console.error);
+  }, [user]);
+
   return (
     <Header fixed height="90">
       <Container size="sm">
-        <Flex my={25} justify="space-between" align="center">
-          <Group>
-            {pathname !== '/' && <ReturnButton />}
+        <Flex my={25} align="center">
+          <Flex
+            sx={{ flex: 1 }}
+            direction="row"
+            align="center"
+            justify="flex-start"
+          >
+            {pathname !== '/' && (
+              <ActionIcon mr="md" variant="light">
+                <IconArrowBackUp
+                  onClick={() => back()}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                />
+              </ActionIcon>
+            )}
             <ActionIcon
               sx={{ alignSelf: 'center' }}
               variant="outline"
@@ -42,20 +63,26 @@ export const AppHeader = () => {
             >
               {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
             </ActionIcon>
-          </Group>
+          </Flex>
           <Title
+            ml="auto"
             fw="bold"
             size={32}
             // eslint-disable-next-line @typescript-eslint/no-misused-promises -- no need to await
             onClick={() => push('/')}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: 'pointer', flex: 1 }}
           >
             ApolloBlog
           </Title>
           {user ? (
-            <Text mb={0}>{user.displayName}</Text>
+            <Text ml="auto" mb={0}>
+              {user.displayName}
+            </Text>
           ) : (
             <Button
+              sx={{
+                flex: 1,
+              }}
               variant="outline"
               onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises -- no need to await

@@ -3,6 +3,7 @@ import { loadTypedefsSync } from '@graphql-tools/load';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { TypeSource } from '@graphql-tools/utils';
 import { ApolloServer } from 'apollo-server-micro';
+import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
 
 import { resolvers } from '../resolvers';
 import { createContextHandler } from './context';
@@ -14,8 +15,11 @@ const typeDefs = loadTypedefsSync('./schema.graphql', {
 }).map(e => e.document) as TypeSource[];
 
 const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
+  typeDefs: [...typeDefs, DateTimeTypeDefinition],
+  resolvers: {
+    ...resolvers,
+    DateTime: DateTimeResolver,
+  },
 });
 
 export const createServer = () =>

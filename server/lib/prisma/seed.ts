@@ -55,11 +55,9 @@ casual.define('user', () => {
     id: extendedCasual._id,
     avatar: extendedCasual.avatar,
     createdAt: new Date(),
-    firstName: casual.first_name,
-    lastName: casual.last_name,
+    displayName: casual.name,
     uid: casual.uuid,
     updatedAt: new Date(),
-    username: casual.username,
   };
 });
 

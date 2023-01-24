@@ -1,5 +1,13 @@
-query getPosts {
-  posts {
-    ...PostThumbnail
+query getPosts($input: PaginationInput!) {
+  posts(input: $input) {
+    pageInfo {
+      hasMore
+      cursor
+    }
+    edges {
+      node {
+        ...PostThumbnail
+      }
+    }
   }
 }

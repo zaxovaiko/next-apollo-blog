@@ -37,7 +37,7 @@ export const PostView = () => {
         <Text size="xl" mt={20}>
           {post.content}
         </Text>
-        <AddCommentArea />
+        <AddCommentArea postId={id as string} />
         <PostCommentsList id={post.id} />
       </Grid.Col>
       <Grid.Col xs={3}>

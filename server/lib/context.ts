@@ -20,13 +20,21 @@ export const createContextHandler = async ({
     try {
       const decodedToken = await fireAuth.verifyIdToken(token);
 
-      const user = await prisma.user.findFirst({
+      const user = await prisma.user.upsert({
         where: { uid: decodedToken.uid },
+        update: {},
+        create: {
+          uid: decodedToken.uid,
+          displayName: decodedToken.name as string,
+          avatar: decodedToken.picture,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       });
 
       return {
         decodedToken,
-        user: user ?? null,
+        user,
       };
     } catch {
       return {

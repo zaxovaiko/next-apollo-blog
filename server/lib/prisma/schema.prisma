@@ -27,12 +27,10 @@ model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   avatar    String?  @default("https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg")
   createdAt DateTime @db.Date
-  firstName String?
+  displayName String?
   inactive  Boolean  @default(false)
-  lastName  String?
   updatedAt DateTime @db.Date
   uid       String   @unique
-  username  String   @unique
   role      Role     @default(USER)
   posts     Post[]
   comments  Comment[]
