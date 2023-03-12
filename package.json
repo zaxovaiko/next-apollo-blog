@@ -18,8 +18,8 @@
     "prepare": "husky install"
   },
   "prisma": {
-    "schema": "server/lib/prisma/schema.prisma",
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} server/lib/prisma/seed.ts"
+    "schema": "server/prisma/schema.prisma",
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} server/prisma/seed.ts"
   },
   "dependencies": {
     "@apollo/client": "3.7.0",

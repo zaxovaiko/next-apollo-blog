@@ -2,8 +2,8 @@ import { ValidationError } from 'apollo-server-micro';
 import { MutationResolvers } from 'generated/server';
 import { isNil, omitBy } from 'lodash';
 import { DEFAULT_USER_AVATAR, ErrorNames } from 'server/lib/enums';
-import { prisma } from 'server/lib/prisma';
 import { checkUserPermissionsOrThrow } from 'server/lib/utils';
+import { prisma } from 'server/prisma';
 
 export const updateUser: MutationResolvers['updateUser'] = async (
   _parent,

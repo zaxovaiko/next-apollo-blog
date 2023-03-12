@@ -1,5 +1,5 @@
 import { CommentResolvers } from '../../../generated/server';
-import { prisma } from '../../lib/prisma';
+import { prisma } from '../../prisma';
 
 export const Comment: CommentResolvers = {
   post: async parent => {

@@ -2,8 +2,8 @@ import { User } from '@prisma/client';
 import { MicroRequest } from 'apollo-server-micro/dist/types';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 
+import { prisma } from '../prisma';
 import { fireAuth } from './firebase';
-import { prisma } from './prisma';
 
 export type ApolloContext = {
   decodedToken: DecodedIdToken | null;

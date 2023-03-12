@@ -1,5 +1,5 @@
 import { QueryResolvers } from 'generated/server';
-import { prisma } from 'server/lib/prisma';
+import { prisma } from 'server/prisma';
 
 export const posts: QueryResolvers['posts'] = async (_parent, { input }) => {
   const rows = await prisma.post.findMany({

@@ -8,32 +8,32 @@ datasource db {
 }
 
 model Post {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
   content      String?
-  createdAt    DateTime @db.Date
+  createdAt    DateTime  @db.Date
   images       String[]
-  isDraft      Boolean  @default(false)
+  isDraft      Boolean   @default(false)
   previewImage String?
   title        String
-  updatedAt    DateTime @db.Date
-  userId       String   @db.ObjectId
-  user         User     @relation(fields: [userId], references: [id])
+  updatedAt    DateTime  @db.Date
+  userId       String    @db.ObjectId
+  user         User      @relation(fields: [userId], references: [id])
   comments     Comment[]
 
   @@unique(fields: [id, userId], name: "idUserId")
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  avatar    String?  @default("https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg")
-  createdAt DateTime @db.Date
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  avatar      String?   @default("https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg")
+  createdAt   DateTime  @db.Date
   displayName String?
-  inactive  Boolean  @default(false)
-  updatedAt DateTime @db.Date
-  uid       String   @unique
-  role      Role     @default(USER)
-  posts     Post[]
-  comments  Comment[]
+  inactive    Boolean   @default(false)
+  updatedAt   DateTime  @db.Date
+  uid         String    @unique
+  role        Role      @default(USER)
+  posts       Post[]
+  comments    Comment[]
 }
 
 model Comment {

@@ -11,28 +11,38 @@ const mocks = [
   {
     request: {
       query: GetPostsDocument,
+      variables: { input: { first: 5 } },
     },
     result: {
       data: {
         // MockerProvider requires defining __typename for each type
         __typename: 'Query',
-        posts: [
-          {
-            __typename: 'Post',
-            id: 1,
-            title: 'Mocked title',
-            content: 'Mocked content',
-            previewImage: 'https://via.placeholder.com/150',
-            createdAt: new Date(),
-            user: {
-              __typename: 'User',
-              avatar:
-                'https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png',
-              id: 1,
-              displayName: 'mocked',
-            },
+        posts: {
+          pageInfo: {
+            hasMore: false,
+            cursor: 1,
           },
-        ],
+          edges: [
+            {
+              node: {
+                __typename: 'Post',
+                id: 1,
+                title: 'Mocked title',
+                content: 'Mocked content',
+                previewImage: 'https://via.placeholder.com/150',
+                createdAt: new Date(),
+                user: {
+                  __typename: 'User',
+                  avatar:
+                    'https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png',
+                  id: 1,
+                  displayName: 'mocked',
+                },
+              },
+              cursor: 1,
+            },
+          ],
+        },
       },
     },
   },

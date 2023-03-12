@@ -1,6 +1,6 @@
 import { MutationResolvers } from '../../../generated/server';
-import { prisma } from '../../lib/prisma';
 import { checkUserPermissionsOrThrow } from '../../lib/utils';
+import { prisma } from '../../prisma';
 
 export const deletePost: MutationResolvers['deletePost'] = async (
   parent,

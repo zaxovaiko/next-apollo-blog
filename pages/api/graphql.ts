@@ -2,7 +2,7 @@ import { RequestHandler } from 'micro';
 
 import { createServer } from '../../server/lib/apollo';
 import { cors } from '../../server/lib/micro';
-import { prisma } from '../../server/lib/prisma';
+import { prisma } from '../../server/prisma';
 
 const apolloServer = createServer();
 const startServer = apolloServer.start();

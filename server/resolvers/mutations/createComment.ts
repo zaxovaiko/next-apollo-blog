@@ -1,7 +1,7 @@
 import { MutationResolvers } from '../../../generated/server';
 import { ErrorNames } from '../../lib/enums';
-import { prisma } from '../../lib/prisma';
 import { checkUserPermissionsOrThrow } from '../../lib/utils';
+import { prisma } from '../../prisma';
 
 export const createComment: MutationResolvers['createComment'] = async (
   _parent,
