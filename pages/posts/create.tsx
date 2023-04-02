@@ -1,5 +1,5 @@
-import React from "react";
-import { CreatePostView } from "web/components/post/CreatePostView";
+import React from 'react';
+import { CreatePostView } from 'web/components/post/CreatePostView';
 
 function Create() {
   return <CreatePostView />;
