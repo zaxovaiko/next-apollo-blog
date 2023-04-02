@@ -4,9 +4,11 @@ import {
   Container,
   Flex,
   Header,
+  Switch,
   Text,
   Title,
   useMantineColorScheme,
+  useMantineTheme,
 } from '@mantine/core';
 import { IconArrowBackUp, IconMoonStars, IconSun } from '@tabler/icons';
 import { useRouter } from 'next/router';
@@ -21,8 +23,7 @@ export const AppHeader = () => {
   // TODO: Handle error and loading states
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
-
-  const dark = colorScheme === 'dark';
+  const theme = useMantineTheme();
 
   useEffect(() => {
     async function writeToken() {
@@ -54,15 +55,21 @@ export const AppHeader = () => {
                 />
               </ActionIcon>
             )}
-            <ActionIcon
-              sx={{ alignSelf: 'center' }}
-              variant="outline"
-              color={dark ? 'yellow' : 'blue'}
-              onClick={() => toggleColorScheme()}
-              title="Toggle color scheme"
-            >
-              {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
-            </ActionIcon>
+            <Switch
+              checked={colorScheme === 'dark'}
+              onChange={() => toggleColorScheme()}
+              size="lg"
+              onLabel={
+                <IconSun color={theme.white} size="1.25rem" stroke={1.5} />
+              }
+              offLabel={
+                <IconMoonStars
+                  color={theme.colors.gray[6]}
+                  size="1.25rem"
+                  stroke={1.5}
+                />
+              }
+            />
           </Flex>
           <Title
             ml="auto"

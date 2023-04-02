@@ -5,7 +5,6 @@ export enum NodeEnvs {
 
 export enum ErrorNames {
   Unauthenticated = 'UNAUTHENTICATED',
-  TokenIdRequired = 'TOKEN_ID_REQUIRED',
   SomeDataIsRequired = 'SOME_DATA_IS_REQUIRED',
   UserAlreadyExists = 'USER_ALREADY_EXISTS',
   PostTitleIsRequired = 'POST_TITLE_IS_REQUIRED',

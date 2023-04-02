@@ -7,14 +7,14 @@ import {
   MantineProvider,
 } from '@mantine/core';
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
+import { Notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
-
-import { AppHeader } from '../web/components/ui/AppHeader';
-import { client } from '../web/lib/apollo';
+import { AppHeader } from 'web/components/ui/AppHeader';
+import { client } from 'web/lib/apollo';
 
 dayjs.extend(relativeTime);
 
@@ -61,7 +61,15 @@ const App = ({ Component, pageProps }: AppProps) => {
         >
           <ApolloProvider client={client}>
             <AppShell padding="md" header={<AppHeader />}>
-              <Container size="sm">
+              <Notifications position="top-right" />
+              <Container
+                size="sm"
+                sx={{
+                  minHeight: '100%',
+                  flexDirection: 'column',
+                  display: 'flex',
+                }}
+              >
                 <Component {...pageProps} />
               </Container>
             </AppShell>
