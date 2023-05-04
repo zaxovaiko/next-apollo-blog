@@ -10,7 +10,8 @@ import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import type { AppProps } from 'next/app';
+import { emotionCache } from 'emotionCache';
+import NextApp, { type AppContext, type AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { AppHeader } from 'web/components/ui/AppHeader';
@@ -57,6 +58,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
+          emotionCache={emotionCache}
           theme={{ colorScheme, fontFamily: 'Inter, sans-serif' }}
         >
           <ApolloProvider client={client}>
@@ -78,6 +80,13 @@ const App = ({ Component, pageProps }: AppProps) => {
       </ColorSchemeProvider>
     </>
   );
+};
+
+App.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
+  return {
+    ...appProps,
+  };
 };
 
 export default App;
