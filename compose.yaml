@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0"]
+  mongosetup:
+    image: mongo
+    depends_on:
+      - mongo
+    volumes:
+      - ./scripts/mongo-setup.sh:/scripts/mongo-setup.sh
+    restart: "no"
+    entrypoint: ["bash", "./scripts/mongo-setup.sh"]
