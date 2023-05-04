@@ -20,7 +20,7 @@ const authLink = new ApolloLink((operation, forward) => {
 });
 
 const httpLink = new HttpLink({
-  uri: process.env.API_HOST,
+  uri: process.env.NEXT_PUBLIC_API_HOST,
 });
 
 export const client = new ApolloClient({
