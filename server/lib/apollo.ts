@@ -4,15 +4,17 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { TypeSource } from '@graphql-tools/utils';
 import { ApolloServer } from 'apollo-server-micro';
 import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
+import path from 'path';
 
 import { createContextHandler } from './context';
 import { NodeEnvs } from './enums';
 import { prisma } from '../prisma';
 import { resolvers } from '../resolvers';
 
-const typeDefs = loadTypedefsSync('./../schema.graphql', {
-  loaders: [new GraphQLFileLoader()],
-}).map(e => e.document) as TypeSource[];
+const typeDefs = loadTypedefsSync(
+  path.resolve(__dirname, '../../schema.graphql'),
+  { loaders: [new GraphQLFileLoader()] },
+).map(e => e.document) as TypeSource[];
 
 const schema = makeExecutableSchema({
   typeDefs: [...typeDefs, DateTimeTypeDefinition],

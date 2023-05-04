@@ -36,6 +36,7 @@ const mocks = [
                   avatar:
                     'https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png',
                   id: 1,
+                  uid: 1,
                   displayName: 'mocked',
                 },
               },
