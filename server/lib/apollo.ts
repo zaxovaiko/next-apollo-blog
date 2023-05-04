@@ -1,21 +1,15 @@
-import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
-import { loadTypedefsSync } from '@graphql-tools/load';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { TypeSource } from '@graphql-tools/utils';
 import { ApolloServer } from 'apollo-server-micro';
 import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
 
 import { createContextHandler } from './context';
 import { NodeEnvs } from './enums';
+import GraphQLSchema from '../../schema';
 import { prisma } from '../prisma';
 import { resolvers } from '../resolvers';
 
-const typeDefs = loadTypedefsSync('./schema.graphql', {
-  loaders: [new GraphQLFileLoader()],
-}).map(e => e.document) as TypeSource[];
-
 const schema = makeExecutableSchema({
-  typeDefs: [...typeDefs, DateTimeTypeDefinition],
+  typeDefs: [GraphQLSchema, DateTimeTypeDefinition],
   resolvers: {
     ...resolvers,
     DateTime: DateTimeResolver,

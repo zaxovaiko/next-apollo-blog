@@ -4,7 +4,7 @@ import React, { memo } from 'react';
 import PostCardLoader from 'web/components/post/components/PostCardLoader';
 
 const PostsListLoader = ({ rows }: { rows: number }) => (
-  <Grid role="alert">
+  <Grid role="alert" my="md">
     {Array.from({ length: rows }).map((_, i) => (
       <Grid.Col key={i} span={12} mb="md">
         <PostCardLoader />
