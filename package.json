@@ -9,7 +9,7 @@
   "main": "server/resolvers/index.ts",
   "scripts": {
     "dev": "concurrently --names \"codegen,prisma,dev\" -c \"bgBlue.bold,bgGreen.bold,bgMagenta.bold\" \"npm run codegen -- --watch\" \"npm run prisma:generate --watch\" \"next dev\"",
-    "build": "next build",
+    "build": "npm run codegen && npm run prisma:generate && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
