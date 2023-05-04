@@ -5,10 +5,10 @@ import { TypeSource } from '@graphql-tools/utils';
 import { ApolloServer } from 'apollo-server-micro';
 import { DateTimeTypeDefinition, DateTimeResolver } from 'graphql-scalars';
 
-import { prisma } from '../prisma';
-import { resolvers } from '../resolvers';
 import { createContextHandler } from './context';
 import { NodeEnvs } from './enums';
+import { prisma } from '../prisma';
+import { resolvers } from '../resolvers';
 
 const typeDefs = loadTypedefsSync('./schema.graphql', {
   loaders: [new GraphQLFileLoader()],

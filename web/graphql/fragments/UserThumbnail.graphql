@@ -1,5 +1,6 @@
 fragment UserThumbnail on User {
   avatar
   id
-  displayName 
+  displayName
+  uid
 }

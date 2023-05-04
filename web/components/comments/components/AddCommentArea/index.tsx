@@ -10,45 +10,18 @@ import {
   Text,
   Textarea,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import { IconPlus, IconSend, IconX } from '@tabler/icons';
 import { Post } from 'generated/client';
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { commentsService } from 'web/components/comments/comments.service';
+import { useCreateCommentForm } from 'web/components/comments/components/AddCommentArea/hooks';
 import { auth } from 'web/lib/firebase';
 
 export const AddCommentArea = ({ postId }: { postId: Post['id'] }) => {
   const [user] = useAuthState(auth);
-  const { handleCreateComment } = commentsService.useCreateComment();
 
-  const [isFormOpen, setForm] = useState(false);
-
-  const form = useForm({
-    initialValues: { text: '' },
-
-    validate: {
-      text: value => {
-        if (value.length > 250) {
-          return 'Comment is too long';
-        }
-        if (value.length < 1) {
-          return 'Comment is too short';
-        }
-        return null;
-      },
-    },
-  });
-
-  const handleSubmit = async () => {
-    await handleCreateComment({
-      text: form.values.text,
-      postId,
-    });
-
-    setForm(false);
-    form.reset();
-  };
+  const { form, handleSubmit, isFormOpen, setForm, loading } =
+    useCreateCommentForm(postId);
 
   if (!user) {
     return null;
@@ -57,9 +30,10 @@ export const AddCommentArea = ({ postId }: { postId: Post['id'] }) => {
   return (
     <Container px={0}>
       <ActionIcon
+        loading={loading}
         variant="outline"
         my="sm"
-        sx={{ marginRight: '0', marginLeft: 'auto' }}
+        sx={{ marginRight: 0, marginLeft: 'auto' }}
         onClick={() => {
           setForm(p => !p);
           form.reset();
@@ -78,7 +52,7 @@ export const AddCommentArea = ({ postId }: { postId: Post['id'] }) => {
             <Grid.Col xs={10.5} offset={0.5}>
               <form
                 onSubmit={form.onSubmit(() => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises -- onSubmit is async
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises -- no need to be awaited
                   handleSubmit();
                 })}
               >

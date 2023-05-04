@@ -9,7 +9,7 @@ import PostsListLoader from 'web/components/post/components/PostsListLoader';
 export const PostsList = () => {
   const { data, loading, error, fetchMore } = useGetPostsQuery({
     fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first',
+    nextFetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: true,
     variables: { input: { first: 5 } },
   });

@@ -10,6 +10,7 @@ type User {
   createdAt: DateTime!
   displayName: String
   id: ID!
+  uid: ID!
   inactive: Boolean!
   updatedAt: DateTime!
   posts: [Post!]

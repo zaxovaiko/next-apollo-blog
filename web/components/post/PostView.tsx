@@ -1,7 +1,7 @@
 import { Grid, Text, Title, Image } from '@mantine/core';
-import { useGetPostQuery } from 'generated/client';
+import { useGetPostLazyQuery } from 'generated/client';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AddCommentArea } from 'web/components/comments/components/AddCommentArea';
 import { PostCommentsList } from 'web/components/post/PostCommentsList';
 import { PostAuthorCard } from 'web/components/post/components/PostAuthorCard';
@@ -11,11 +11,18 @@ export const PostView = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, loading, error } = useGetPostQuery({
-    variables: { input: { id: id as string } },
+  const [fetchPost, { data, loading, error }] = useGetPostLazyQuery({
     fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first',
+    nextFetchPolicy: 'cache-and-network',
   });
+
+  useEffect(() => {
+    if (id) {
+      fetchPost({
+        variables: { input: { id: id.toString() } },
+      }).catch(console.error);
+    }
+  }, [id, fetchPost]);
 
   if (loading) {
     return <PageLoader />;
