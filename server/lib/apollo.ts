@@ -10,7 +10,7 @@ import { NodeEnvs } from './enums';
 import { prisma } from '../prisma';
 import { resolvers } from '../resolvers';
 
-const typeDefs = loadTypedefsSync('./schema.graphql', {
+const typeDefs = loadTypedefsSync('./../schema.graphql', {
   loaders: [new GraphQLFileLoader()],
 }).map(e => e.document) as TypeSource[];
 
