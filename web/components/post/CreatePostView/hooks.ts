@@ -1,16 +1,11 @@
-import { Box, Button, Text, Textarea, TextInput, Title } from '@mantine/core';
-import { hasLength, useForm } from '@mantine/form';
+import { useForm, hasLength } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons';
 import { useCreatePostMutation } from 'generated/client';
 import { useRouter } from 'next/router';
-import React from 'react';
 
-import { PageLoader } from '../ui/PageLoader';
-
-export function CreatePostView() {
+export const useCreatePost = () => {
   const router = useRouter();
-
   const [createPost, { loading }] = useCreatePostMutation();
 
   const form = useForm({
@@ -45,11 +40,8 @@ export function CreatePostView() {
       await router.push('/');
 
       notifications.show({
-        title: 'Success',
         message: 'Post created successfully',
-        icon: <IconCheck />,
-        withCloseButton: true,
-        radius: 'xl',
+        icon: IconCheck({}),
         color: 'green',
       });
       return;
@@ -57,10 +49,7 @@ export function CreatePostView() {
 
     if (errors) {
       notifications.show({
-        title: 'Error',
         message: errors[0].message,
-        withCloseButton: true,
-        radius: 'xl',
         color: 'red',
       });
       return;
@@ -69,35 +58,9 @@ export function CreatePostView() {
     return;
   };
 
-  if (loading) {
-    return <PageLoader />;
-  }
-
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flex: 1,
-        flexDirection: 'column',
-      }}
-      component="form"
-      onSubmit={form.onSubmit(() => handleSubmit() as unknown as void)}
-    >
-      <Title>Create a post</Title>
-      <Text>Your post will be visible for everyone</Text>
-      <TextInput {...form.getInputProps('title')} mt="xl" placeholder="Title" />
-      <Textarea
-        {...form.getInputProps('content')}
-        my="md"
-        placeholder="Your content"
-        minRows={4}
-        autosize
-      />
-
-      <Button type="submit" variant="light" sx={{ marginLeft: 'auto' }}>
-        Post a message
-      </Button>
-    </Box>
-  );
-}
+  return {
+    loading,
+    form,
+    handleSubmit,
+  };
+};

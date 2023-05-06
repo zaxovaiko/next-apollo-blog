@@ -15,20 +15,23 @@ The project was rewritten with Next.js and GraphQL.
 1. Clone or fork this repository.
 2. Create or ask someone for `.env` file which contains Firebase keys and other stuff.
 3. Run `npm install`
-4. Run `npx prisma generate`
-5. Run `npx prisma db seed`
-6. Run `npm run dev`
+4. Run `npm run dev`
 
-The backend API you can find under `http://localhost:3000/api/graphql`
+## Deployment
+
+The app is deployed on Vercel automatically after pushing commits to `dev` branch. You can find the app under [this link](https://apollo-blog.vercel.app/).
+
+The backend API can be found under `http://localhost:3000/api/graphql` endpoint.
 
 ## Project structure and Business logic
 
-This project is using `schema.graphql` for defining GraphQL schema and `prisma/schema.prisma` for defining
-Prisma database schema.
+This project is using `schema.ts`, which contains definition of GraphQL schema and `prisma/schema.prisma` for defining Prisma database schema.
 
-From the business perspective this project is pretty much obvious. User can create draft posts which he can publish later. Also, everybody can comments posts.
+From the business perspective this project is pretty much obvious. User can create draft posts which he can publish later. Also, everybody can comments posts, like them and share them on social media. There is also a search bar which allows you to search posts by title or content. You can also filter posts by tags.
 
-> There is no strict business rules which we are going to achieve, so fill free to propose your ideas and visions.
+Project is currently under development, so there is a lot of things to do.
+
+> Also, there is no strict business rules which we are going to achieve, so fill free to propose your ideas and visions.
 
 ## Learn More
 
@@ -39,8 +42,4 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+P.S. Sometimes I'm asking myself, why did I choose Next.js alongside with GraphQL for this project? Isn't it easier to use `getServerSideProps` and etc with Prisma helpers? Idk. I just wanted to try something new.

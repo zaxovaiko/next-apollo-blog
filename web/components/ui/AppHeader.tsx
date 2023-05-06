@@ -1,5 +1,7 @@
 import {
   ActionIcon,
+  Avatar,
+  Box,
   Button,
   Container,
   Flex,
@@ -10,7 +12,13 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
-import { IconArrowBackUp, IconMoonStars, IconSun } from '@tabler/icons';
+import {
+  IconArrowBackUp,
+  IconMoonStars,
+  IconSun,
+  IconTextPlus,
+} from '@tabler/icons';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
@@ -18,7 +26,7 @@ import { auth } from 'web/lib/firebase';
 
 export const AppHeader = () => {
   const [user] = useAuthState(auth);
-  const { pathname, push, back } = useRouter();
+  const { pathname, push, back: navigateBack } = useRouter();
 
   // TODO: Handle error and loading states
   const [signInWithGoogle] = useSignInWithGoogle(auth);
@@ -35,6 +43,11 @@ export const AppHeader = () => {
     writeToken().catch(console.error);
   }, [user]);
 
+  const navigateToPostCreate = () => push('/posts/create');
+
+  const isMainPage = pathname === '/';
+  const LeftSideIcon = isMainPage ? IconTextPlus : IconArrowBackUp;
+
   return (
     <Header fixed height="90">
       <Container size="sm">
@@ -45,16 +58,13 @@ export const AppHeader = () => {
             align="center"
             justify="flex-start"
           >
-            {pathname !== '/' && (
-              <ActionIcon mr="md" variant="light">
-                <IconArrowBackUp
-                  onClick={() => back()}
-                  style={{
-                    cursor: 'pointer',
-                  }}
-                />
-              </ActionIcon>
-            )}
+            <ActionIcon mr="md" variant="light">
+              <LeftSideIcon
+                onClick={isMainPage ? navigateToPostCreate : navigateBack}
+                style={{ cursor: 'pointer' }}
+              />
+            </ActionIcon>
+
             <Switch
               checked={colorScheme === 'dark'}
               onChange={() => toggleColorScheme()}
@@ -82,14 +92,23 @@ export const AppHeader = () => {
             ApolloBlog
           </Title>
           {user ? (
-            <Text ml="auto" mb={0}>
-              {user.displayName}
-            </Text>
+            <Link href={`/users/${user.uid}`} legacyBehavior>
+              <Flex
+                sx={{
+                  cursor: 'pointer',
+                  alignItems: 'center',
+                  gap: theme.spacing.xs,
+                }}
+              >
+                <Text ml="auto" mb={0}>
+                  {user.displayName}
+                </Text>
+                <Avatar radius="xl" src={user.photoURL} alt="it's me" />
+              </Flex>
+            </Link>
           ) : (
             <Button
-              sx={{
-                flex: 1,
-              }}
+              sx={{ flex: 1 }}
               variant="outline"
               onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises -- no need to await
