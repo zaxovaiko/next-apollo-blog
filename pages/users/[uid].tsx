@@ -1,7 +1,8 @@
 import React from 'react';
+import { UserView } from 'web/components/users/UserView';
 
 const UserPage = () => {
-  return <h3>User page</h3>;
+  return <UserView />;
 };
 
 export default UserPage;

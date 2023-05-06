@@ -16,8 +16,8 @@ const schema = buildSchema(`
     uid: ID!
     inactive: Boolean!
     updatedAt: DateTime!
-    posts: [Post!]
-    comments: [Comment!]
+    posts(input: PaginationInput): PostConnection!
+    comments(input: PaginationInput): CommentConnection!
     role: Role!
   }
 
@@ -26,7 +26,7 @@ const schema = buildSchema(`
     createdAt: DateTime
     comments: [Comment!]
     id: ID!
-    isDraft: Boolean
+    isDraft: Boolean!
     title: String!
     updatedAt: DateTime
     previewImage: String
@@ -132,8 +132,13 @@ const schema = buildSchema(`
     after: String
   }
 
+  input UserInput {
+    uid: ID!
+  }
+
   type Query {
     currentUser: User
+    user(input: UserInput!): User
     users(input: PaginationInput): UserConnection!
     posts(input: PaginationInput): PostConnection!
     comments(input: PaginationInput): CommentConnection!

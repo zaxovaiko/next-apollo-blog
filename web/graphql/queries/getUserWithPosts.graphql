@@ -1,0 +1,16 @@
+query getUserWithPosts($input: UserInput!, $postsInput: PaginationInput!) {
+  user(input: $input) {
+    ...UserThumbnail
+    posts(input: $postsInput) {
+      pageInfo {
+        hasMore
+        cursor
+      }
+      edges {
+        node {
+          ...PostThumbnail
+        }
+      }
+    }
+  }
+}

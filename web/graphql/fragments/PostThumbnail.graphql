@@ -4,6 +4,7 @@ fragment PostThumbnail on Post {
   previewImage
   content
   createdAt
+  isDraft
   user {
     ...UserThumbnail
   }

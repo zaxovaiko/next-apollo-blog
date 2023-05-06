@@ -5,7 +5,7 @@ import React from 'react';
 
 export const PostAuthorCard = ({ user }: { user: UserThumbnailFragment }) => {
   return (
-    <Box mt={8}>
+    <Box>
       <Image
         src={user.avatar}
         color="cyan"
@@ -14,8 +14,8 @@ export const PostAuthorCard = ({ user }: { user: UserThumbnailFragment }) => {
         radius="sm"
       />
       <Link
-        href={`/users/${user.id}`}
-        style={{ textDecoration: 'none', cursor: 'pointer' }}
+        href={`/users/${user.uid}`}
+        style={{ textDecoration: 'none', cursor: 'pointer', color: 'inherit' }}
       >
         <Text my="lg" fw="bold" size={16} sx={{ cursor: 'pointer' }}>
           {user.displayName}

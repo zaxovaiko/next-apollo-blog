@@ -9,8 +9,16 @@ export const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
   return (
     <Box sx={{ position: 'relative' }}>
       <Card shadow="sm" radius="md">
-        <Card.Section>
-          <Image src={post.previewImage} height={300} alt="Post image" />
+        <Card.Section
+          sx={{
+            background: "url('https://caspianpolicy.com/no-image.png')",
+            backgroundSize: 'cover',
+            height: 300,
+          }}
+        >
+          {post.previewImage && (
+            <Image src={post.previewImage} height={300} alt="Post image" />
+          )}
           <Flex
             align="center"
             mt="sm"
