@@ -30,6 +30,7 @@ const mocks = [
                 title: 'Mocked title',
                 content: 'Mocked content',
                 previewImage: 'https://via.placeholder.com/150',
+                isDraft: false,
                 createdAt: new Date(),
                 user: {
                   __typename: 'User',
