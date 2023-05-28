@@ -1,4 +1,4 @@
-import { Grid, Text, Title, Image, Badge, Button } from '@mantine/core';
+import { Grid, Text, Title, Image, Badge, Button, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { AddCommentArea } from 'web/components/comments/components/AddCommentArea';
@@ -30,44 +30,39 @@ export const PostView = () => {
   return (
     <Grid>
       <Grid.Col xs={9}>
-        <Title
-          order={1}
-          fw="bold"
-          align="left"
-          mb="md"
-          sx={{ alignItems: 'center', display: 'flex' }}
-        >
-          {post.title}
+        <Flex sx={{ alignItems: 'center' }} mb="md">
+          <Title order={1} fw="bold">
+            {post.title}
+          </Title>
           {post.isDraft && (
-            <>
-              <Badge ml={10} color="blue">
-                Draft
-              </Badge>
-              <Button
-                onClick={() => {
-                  handlePublishClick().catch(console.error);
-                }}
-                variant="filled"
-                color="green"
-                ml="auto"
-              >
-                Publish
-              </Button>
-            </>
+            <Badge ml={10} variant="dot">
+              Draft
+            </Badge>
           )}
-        </Title>
+        </Flex>
+
         {post.previewImage && (
           <Image height={200} src={post.previewImage} radius="md" mb="md" />
         )}
-        <Text size="xl" color="gray.6">
-          {post.content}
-        </Text>
+        <Text size="xl">{post.content}</Text>
         {!post.isDraft && <AddCommentArea postId={id as string} />}
 
         <PostCommentsList id={post.id} />
       </Grid.Col>
       <Grid.Col xs={3}>
         <PostAuthorCard user={post.user} />
+
+        {post.isDraft && (
+          <Button
+            mt="md"
+            onClick={() => {
+              handlePublishClick().catch(console.error);
+            }}
+            variant="outline"
+          >
+            Publish
+          </Button>
+        )}
       </Grid.Col>
     </Grid>
   );

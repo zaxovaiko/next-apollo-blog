@@ -6,7 +6,6 @@ import {
   Post,
   useCreateCommentMutation,
 } from 'generated/client';
-import { useState } from 'react';
 import { client } from 'web/lib/apollo';
 
 export const useCreateComment = () => {
@@ -31,8 +30,6 @@ export const useCreateComment = () => {
 
 export const useCreateCommentForm = (postId: Post['id']) => {
   const { handleCreateComment, loading } = useCreateComment();
-
-  const [isFormOpen, setForm] = useState(false);
 
   const form = useForm({
     initialValues: { text: '' },
@@ -71,15 +68,12 @@ export const useCreateCommentForm = (postId: Post['id']) => {
       });
     }
 
-    setForm(false);
     form.reset();
   };
 
   return {
     form,
     handleSubmit,
-    isFormOpen,
     loading,
-    setForm,
   };
 };

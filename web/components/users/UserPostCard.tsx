@@ -1,4 +1,4 @@
-import { Button, Card, Group, Image, Text } from '@mantine/core';
+import { Badge, Button, Card, Group, Image, Text, Title } from '@mantine/core';
 import { PostThumbnailFragment } from 'generated/client';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -15,10 +15,13 @@ export const UserPostCard = ({ post }: { post: PostThumbnailFragment }) => {
       )}
 
       <Group position="apart" mb="xs">
-        <Text weight={500}>{post.title}</Text>
+        <Title order={2} fw="bold" weight={500}>
+          {post.title}
+        </Title>
+        {post.isDraft && <Badge variant="gradient">Draft</Badge>}
       </Group>
 
-      <Text size="sm" color="dimmed" truncate>
+      <Text size="sm" color="dimmed" lineClamp={3}>
         {post.content}
       </Text>
 
@@ -27,7 +30,6 @@ export const UserPostCard = ({ post }: { post: PostThumbnailFragment }) => {
           push(`/posts/${post.id}`).catch(console.error);
         }}
         variant="light"
-        color="blue"
         fullWidth
         mt="md"
         radius="md"

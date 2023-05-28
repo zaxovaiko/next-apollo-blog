@@ -1,53 +1,47 @@
-import { Avatar, Box, Card, Flex, Image, Text } from '@mantine/core';
+import { Avatar, Box, Card, Flex, Image, Text, Title } from '@mantine/core';
 import dayjs from 'dayjs';
 import { PostThumbnailFragment } from 'generated/client';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React from 'react';
 
 export const PostCard = ({ post }: { post: PostThumbnailFragment }) => {
-  const router = useRouter();
+  const hasImage = post.previewImage !== null;
+
   return (
     <Box sx={{ position: 'relative' }}>
       <Card shadow="sm" radius="md">
-        <Card.Section
-          sx={{
-            background: "url('https://caspianpolicy.com/no-image.png')",
-            backgroundSize: 'cover',
-            height: 300,
-          }}
-        >
-          {post.previewImage && (
-            <Image src={post.previewImage} height={300} alt="Post image" />
-          )}
-          <Flex
-            align="center"
-            mt="sm"
-            pos="absolute"
-            sx={{
-              background: 'rgba(0, 0, 0, 0.5)',
-              width: '100%',
-              padding: 20,
-              bottom: 0,
-              cursor: 'pointer',
-              zIndex: 2,
-            }}
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises -- no need to await
-            onClick={() => router.push(`/posts/${post.id}`)}
-          >
-            <Avatar h={60} w={60} src={post.user.avatar} radius="xl" mr="sm" />
-            <Box>
-              <Text fw="bold" size="lg" color="white">
-                {post.title}
-              </Text>
-              <Text size="xs" color="gray.2">
+        {hasImage && (
+          <Card.Section mb="md">
+            <Image src={post.previewImage} height={160} alt={post.title} />
+          </Card.Section>
+        )}
+        <Flex sx={{ alignItems: 'center' }}>
+          <Link href={`/users/${post.user.uid}`} passHref legacyBehavior>
+            <Flex style={{ cursor: 'pointer', alignItems: 'center' }}>
+              <Avatar
+                src={post.user.avatar}
+                alt={post.user.displayName ?? 'User avatar'}
+                radius="xl"
+                mr="sm"
+              />
+              <Text size="sm" fw="bold" color="dark.3">
                 {post.user.displayName}
               </Text>
-            </Box>
-            <Text ml="auto" size="xs" color="gray.2">
-              {dayjs(post.createdAt as Date).fromNow()}
-            </Text>
-          </Flex>
-        </Card.Section>
+            </Flex>
+          </Link>
+          <Text ml="auto" size="xs" color="dimmed">
+            {dayjs(post.createdAt as Date).fromNow()}
+          </Text>
+        </Flex>
+
+        <Link passHref legacyBehavior href={`/posts/${post.id}`}>
+          <Title order={2} mt="sm" display="inline-block">
+            {post.title}
+          </Title>
+        </Link>
+        <Text lineClamp={2} mt="sm" size="sm" color="dimmed">
+          {post.content}
+        </Text>
       </Card>
     </Box>
   );

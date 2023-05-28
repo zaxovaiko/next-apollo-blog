@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Avatar,
-  Box,
   Button,
   Container,
   Flex,
@@ -49,8 +48,8 @@ export const AppHeader = () => {
   const LeftSideIcon = isMainPage ? IconTextPlus : IconArrowBackUp;
 
   return (
-    <Header fixed height="90">
-      <Container size="sm">
+    <Header fixed height="90" sx={{ border: 0 }}>
+      <Container>
         <Flex my={25} align="center">
           <Flex
             sx={{ flex: 1 }}
@@ -85,6 +84,7 @@ export const AppHeader = () => {
             ml="auto"
             fw="bold"
             size={32}
+            variant="gradient"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises -- no need to await
             onClick={() => push('/')}
             sx={{ cursor: 'pointer', flex: 1 }}

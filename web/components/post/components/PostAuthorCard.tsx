@@ -1,26 +1,22 @@
-import { Box, Image, Text } from '@mantine/core';
+import { Flex, Image, Text } from '@mantine/core';
 import { UserThumbnailFragment } from 'generated/client';
 import Link from 'next/link';
 import React from 'react';
 
 export const PostAuthorCard = ({ user }: { user: UserThumbnailFragment }) => {
   return (
-    <Box>
-      <Image
-        src={user.avatar}
-        color="cyan"
-        width={160}
-        height={160}
-        radius="sm"
-      />
+    <Flex sx={{ alignItems: 'center' }}>
+      <Image src={user.avatar} width={60} height={60} radius="xl" />
       <Link
         href={`/users/${user.uid}`}
-        style={{ textDecoration: 'none', cursor: 'pointer', color: 'inherit' }}
+        passHref
+        legacyBehavior
+        style={{ cursor: 'pointer' }}
       >
-        <Text my="lg" fw="bold" size={16} sx={{ cursor: 'pointer' }}>
+        <Text ml="md" fw="bold" size="lg" sx={{ cursor: 'pointer' }}>
           {user.displayName}
         </Text>
       </Link>
-    </Box>
+    </Flex>
   );
 };

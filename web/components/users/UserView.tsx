@@ -7,11 +7,11 @@ import { UserPostCard } from 'web/components/users/UserPostCard';
 
 export const UserView = () => {
   const { query } = useRouter();
-  const { uid } = query;
+  const { uid } = query as { uid: string };
 
   const { data, loading, error } = useGetUserWithPostsQuery({
     variables: {
-      input: { uid: uid as string },
+      input: { uid },
       postsInput: { first: 20 },
     },
     fetchPolicy: 'cache-and-network',
@@ -33,7 +33,7 @@ export const UserView = () => {
       <h1>{data.user.displayName}</h1>
       <Grid>
         {posts.map(post => (
-          <Grid.Col span={4} key={post.id}>
+          <Grid.Col span={6} key={post.id}>
             <UserPostCard post={post} />
           </Grid.Col>
         ))}
