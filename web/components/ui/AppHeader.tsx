@@ -17,12 +17,11 @@ import {
   IconSun,
   IconTextPlus,
 } from '@tabler/icons';
-import { logEvent } from 'firebase/analytics';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { analytics, auth } from 'web/lib/firebase';
+import { auth, getAnalyticsAndlogEvent } from 'web/lib/firebase';
 
 export const AppHeader = () => {
   const [user] = useAuthState(auth);
@@ -113,7 +112,7 @@ export const AppHeader = () => {
               variant="outline"
               onClick={() => {
                 signInWithGoogle()
-                  .then(() => logEvent(analytics, 'user_login'))
+                  .then(() => getAnalyticsAndlogEvent('user_login'))
                   .catch(console.error);
               }}
             >

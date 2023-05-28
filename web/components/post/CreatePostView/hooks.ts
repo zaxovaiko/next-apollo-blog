@@ -1,11 +1,10 @@
 import { useForm, hasLength } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons';
-import { logEvent } from 'firebase/analytics';
 import { useCreatePostMutation } from 'generated/client';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { analytics, auth } from 'web/lib/firebase';
+import { auth, getAnalyticsAndlogEvent } from 'web/lib/firebase';
 
 export const useCreatePost = () => {
   const [user] = useAuthState(auth);
@@ -42,7 +41,7 @@ export const useCreatePost = () => {
     });
 
     if (data) {
-      logEvent(analytics, 'post_created', { userId: user?.uid });
+      await getAnalyticsAndlogEvent('post_created', { userId: user?.uid });
       await router.push('/');
 
       notifications.show({
@@ -54,7 +53,9 @@ export const useCreatePost = () => {
     }
 
     if (errors) {
-      logEvent(analytics, 'post_created_error', { userId: user?.uid });
+      await getAnalyticsAndlogEvent('post_created_error', {
+        userId: user?.uid,
+      });
       notifications.show({
         message: errors[0].message,
         color: 'red',

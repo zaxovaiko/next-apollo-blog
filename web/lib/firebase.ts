@@ -1,6 +1,11 @@
-import { getAnalytics } from 'firebase/analytics';
+import {
+  getAnalytics as _getAnalytics,
+  isSupported,
+  logEvent,
+} from 'firebase/analytics';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { browserLocalPersistence, getAuth } from 'firebase/auth';
+import { Tail } from 'web/lib/types';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -22,7 +27,23 @@ if (getApps().length > 0) {
 
 export const app = fireApp;
 export const auth = getAuth(app);
-export const analytics = getAnalytics(app);
+
+export const getAnalytics = async () => {
+  if (await isSupported()) {
+    return _getAnalytics(app);
+  }
+  return null;
+};
+
+export const getAnalyticsAndlogEvent = async (
+  ...params: Tail<Parameters<typeof logEvent>>
+) => {
+  const analytics = await getAnalytics();
+
+  if (analytics) {
+    logEvent(analytics, ...params);
+  }
+};
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises -- This is intentional
 auth.setPersistence(browserLocalPersistence);
