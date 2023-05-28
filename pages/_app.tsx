@@ -5,7 +5,6 @@ import {
   ColorSchemeProvider,
   Container,
   MantineProvider,
-  px,
 } from '@mantine/core';
 import { useColorScheme, useLocalStorage } from '@mantine/hooks';
 import { Notifications } from '@mantine/notifications';
