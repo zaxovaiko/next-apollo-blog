@@ -1,3 +1,4 @@
+import { getAnalytics } from 'firebase/analytics';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { browserLocalPersistence, getAuth } from 'firebase/auth';
 
@@ -21,6 +22,7 @@ if (getApps().length > 0) {
 
 export const app = fireApp;
 export const auth = getAuth(app);
+export const analytics = getAnalytics(app);
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises -- This is intentional
 auth.setPersistence(browserLocalPersistence);

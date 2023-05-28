@@ -17,11 +17,12 @@ import {
   IconSun,
   IconTextPlus,
 } from '@tabler/icons';
+import { logEvent } from 'firebase/analytics';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { auth } from 'web/lib/firebase';
+import { analytics, auth } from 'web/lib/firebase';
 
 export const AppHeader = () => {
   const [user] = useAuthState(auth);
@@ -111,8 +112,9 @@ export const AppHeader = () => {
               sx={{ flex: 1 }}
               variant="outline"
               onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises -- no need to await
-                signInWithGoogle();
+                signInWithGoogle()
+                  .then(() => logEvent(analytics, 'user_login'))
+                  .catch(console.error);
               }}
             >
               Sign in with Google
