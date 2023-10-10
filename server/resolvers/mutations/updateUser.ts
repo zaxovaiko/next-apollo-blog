@@ -1,5 +1,5 @@
-import { ValidationError } from 'apollo-server-micro';
 import { MutationResolvers } from 'generated/server';
+import { GraphQLError } from 'graphql';
 import { isNil, omitBy } from 'lodash';
 import { DEFAULT_USER_AVATAR, ErrorNames } from 'server/lib/enums';
 import { checkUserPermissionsOrThrow } from 'server/lib/utils';
@@ -15,7 +15,7 @@ export const updateUser: MutationResolvers['updateUser'] = async (
   const { displayName, avatar } = input;
 
   if (displayName && displayName.trim() === '') {
-    throw new ValidationError(ErrorNames.UserAlreadyExists);
+    throw new GraphQLError(ErrorNames.UserAlreadyExists);
   }
 
   return prisma.user.update({
