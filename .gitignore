@@ -8,3 +8,5 @@ node_modules/
 generated/
 .swc/
 .vercel
+
+.DS_Store
