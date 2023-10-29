@@ -12,6 +12,7 @@ import { IconTrash } from '@tabler/icons';
 import { Post, PostThumbnailFragment } from 'generated/client';
 import { useRouter } from 'next/router';
 import React, { memo } from 'react';
+import { useCurrentUser } from 'web/shared/hooks/useCurrentUser';
 
 type Props = {
   post: PostThumbnailFragment;
@@ -20,6 +21,8 @@ type Props = {
 
 export const PostCard = memo(({ post, onDelete }: Props) => {
   const { push } = useRouter();
+  const currentUser = useCurrentUser();
+  const isAuthor = currentUser?.id === post.user.id;
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -34,15 +37,14 @@ export const PostCard = memo(({ post, onDelete }: Props) => {
           <Title order={2} fw="bold" weight={500}>
             {post.title}
           </Title>
-          <IconTrash
-            onClick={() => {
-              onDelete(post.id).catch(console.error);
-            }}
-            style={{
-              cursor: 'pointer',
-              marginLeft: 'auto',
-            }}
-          />
+          {isAuthor && (
+            <IconTrash
+              onClick={() => {
+                onDelete(post.id).catch(console.error);
+              }}
+              style={{ cursor: 'pointer', marginLeft: 'auto' }}
+            />
+          )}
         </Flex>
         {post.isDraft && <Badge variant="gradient">Draft</Badge>}
       </Group>

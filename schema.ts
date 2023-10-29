@@ -137,12 +137,12 @@ const schema = buildSchema(`
   }
 
   type Query {
-    currentUser: User
-    user(input: UserInput!): User
+    currentUser: User!
+    user(input: UserInput!): User!
     users(input: PaginationInput): UserConnection!
     posts(input: PaginationInput): PostConnection!
     comments(input: PaginationInput): CommentConnection!
-    post(input: PostInput!): Post
+    post(input: PostInput!): Post!
   }
 
   type Mutation {
