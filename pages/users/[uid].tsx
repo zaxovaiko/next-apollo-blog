@@ -1,8 +1,6 @@
 import React from 'react';
-import { UserView } from 'web/components/users/UserView';
+import { Profile } from 'web/pages/Profile';
 
-const UserPage = () => {
-  return <UserView />;
-};
+const UserPage = () => <Profile />;
 
 export default UserPage;

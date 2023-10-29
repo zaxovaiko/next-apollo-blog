@@ -137,12 +137,12 @@ const schema = buildSchema(`
   }
 
   type Query {
-    currentUser: User
-    user(input: UserInput!): User
+    currentUser: User!
+    user(input: UserInput!): User!
     users(input: PaginationInput): UserConnection!
     posts(input: PaginationInput): PostConnection!
     comments(input: PaginationInput): CommentConnection!
-    post(input: PostInput!): Post
+    post(input: PostInput!): Post!
   }
 
   type Mutation {
@@ -152,7 +152,7 @@ const schema = buildSchema(`
     createPost(input: CreatePostInput!): Post
     updatePost(input: UpdatePostInput!): Post
     publishPost(input: PublishPostInput!): Post
-    deletePost(input: DeletePostInput!): ID
+    deletePost(input: DeletePostInput!): Post
 
     createComment(input: CreateCommentInput!): Comment
     updateComment(input: UpdateCommentInput!): Comment
