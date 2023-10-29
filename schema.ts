@@ -152,7 +152,7 @@ const schema = buildSchema(`
     createPost(input: CreatePostInput!): Post
     updatePost(input: UpdatePostInput!): Post
     publishPost(input: PublishPostInput!): Post
-    deletePost(input: DeletePostInput!): ID
+    deletePost(input: DeletePostInput!): Post
 
     createComment(input: CreateCommentInput!): Comment
     updateComment(input: UpdateCommentInput!): Comment
